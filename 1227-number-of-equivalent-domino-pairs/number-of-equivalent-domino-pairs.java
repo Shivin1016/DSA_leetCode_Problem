@@ -26,6 +26,27 @@ class Solution {
         // return pairs;
 
         //Approach 03 --> using constant space
+        // int[] mp = new int[100];
+
+        //  for(int i = 0 ; i < n ; i++){
+        //     int a = dominoes[i][0];
+        //     int b = dominoes[i][1];
+           
+        //     if(a > b){ 
+        //         //swap 
+        //         int temp = a ;
+        //         a = b ;
+        //         b = temp;
+        //     }
+        //     int num = a * 10 + b; 
+        //     mp[num]++;
+        // }
+
+        // for(int i = 0 ; i < mp.length ; i++){
+        //     pairs += (mp[i] * (mp[i] - 1)) / 2;
+        // }
+
+        //optimzed approach
         int[] mp = new int[100];
 
          for(int i = 0 ; i < n ; i++){
@@ -38,13 +59,12 @@ class Solution {
                 a = b ;
                 b = temp;
             }
-            int num = a * 10 + b; 
+            int num = a * 10 + b;
+            pairs += mp[num];
             mp[num]++;
         }
 
-        for(int i = 0 ; i < mp.length ; i++){
-            pairs += (mp[i] * (mp[i] - 1)) / 2;
-        }
+
 
         return pairs;
 
