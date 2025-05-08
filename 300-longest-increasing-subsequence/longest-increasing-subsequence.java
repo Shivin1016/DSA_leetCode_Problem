@@ -29,10 +29,11 @@ class Solution {
         // return  maxLIS;
 
         //using Patience sorting
+        /*Using tree Data Structure
         TreeSet<Integer> bucket = new TreeSet<>();
         for(int num : nums){
-
-            Integer val = bucket.ceiling(num);
+            //finding just greater then or equal to element
+            Integer val = bucket.ceiling(num); 
             
             if(val != null){
                 bucket.remove(val);
@@ -40,6 +41,24 @@ class Solution {
             //if found then add or not then also add
             bucket.add(num); 
         }
+        */
+
+        /* using list data structure*/
+        List<Integer> bucket = new ArrayList<>();
+        bucket.add(nums[0]);
+        for(int i = 1 ; i < n ; i++){
+            if(nums[i] > bucket.get(bucket.size() - 1)){
+                bucket.add(nums[i]);
+            }else{
+                int j = 0; 
+                //overcome from duplication
+                while(j < n && bucket.get(j) < nums[i]){
+                    j++;
+                }
+                bucket.set(j , nums[i]);
+            }
+        }
+
         return bucket.size();
     } 
 
