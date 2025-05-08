@@ -1,5 +1,5 @@
 class Solution {
-    int[][] memo;
+    int[][] memo; 
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         if(n == 1) return 1;
@@ -12,21 +12,35 @@ class Solution {
         // return solve(nums , 0 , -1, n);
 
         //bottom up approach
-        int[] t = new int[n];
-        Arrays.fill(t , 1); // as every single element itself a single length subsequence 
-        //t[i] --> indicate that largest lis which is end at ith idx
-        int maxLIS = 1;
-        for(int i = 0 ; i < n ; i++){
-            for(int j = 0 ; j < i ; j++){
-                if(nums[j] < nums[i]){
+        // int[] t = new int[n];
+        // Arrays.fill(t , 1); // as every single element itself a single length subsequence 
+        // //t[i] --> indicate that largest lis which is end at ith idx
+        // int maxLIS = 1;
+        // for(int i = 0 ; i < n ; i++){
+        //     for(int j = 0 ; j < i ; j++){
+        //         if(nums[j] < nums[i]){
                     
-                    t[i] = Math.max(t[i] , (t[j] + 1));
-                    maxLIS = Math.max(maxLIS , t[i]);
-                }
-            }
-        }
+        //             t[i] = Math.max(t[i] , (t[j] + 1));
+        //             maxLIS = Math.max(maxLIS , t[i]);
+        //         }
+        //     }
+        // }
 
-        return  maxLIS;
+        // return  maxLIS;
+
+        //using Patience sorting
+        TreeSet<Integer> bucket = new TreeSet<>();
+        for(int num : nums){
+
+            Integer val = bucket.ceiling(num);
+            
+            if(val != null){
+                bucket.remove(val);
+            } 
+            //if found then add or not then also add
+            bucket.add(num); 
+        }
+        return bucket.size();
     } 
 
     public int solve(int[] nums , int idx , int prev , int n){ 
