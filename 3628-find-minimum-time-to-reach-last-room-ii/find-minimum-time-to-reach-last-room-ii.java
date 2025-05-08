@@ -27,15 +27,16 @@ class Solution {
 
                 if(i_ >= 0 && i_ < n && j_ >= 0 && j_ < m){
                     int wait = Math.max(moveTime[i_][j_] - currTime, 0);
-                    int arrTime = 0;
-                    int movementCost = (i_ + j_);
-                    if(movementCost % 2 == 0){
-                        // even move then add 2
-                        arrTime = currTime + wait + 2;
-                    }else{
-                        //odd move then add 1
-                        arrTime = currTime + wait + 1;
-                    }
+                    int movementCost = (i_ + j_) % 2 == 0 ? 2 : 1;
+                    int arrTime = currTime + wait + movementCost;
+
+                    // if(movementCost % 2 == 0){
+                    //     // even move then add 2
+                    //     arrTime = currTime + wait + 2;
+                    // }else{
+                    //     //odd move then add 1
+                    //     arrTime = currTime + wait + 1;
+                    // }
                      
 
                     if (result[i_][j_] > arrTime) {
