@@ -40,6 +40,7 @@ class Solution {
                 }
             }
             mp = temp.clone(); 
+            temp = null;
             t--;
         }
         
