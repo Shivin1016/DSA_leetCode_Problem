@@ -1,22 +1,18 @@
 class Solution {
-    public boolean hasDuplicate(String w1 , String w2){
-        int[] mp1 = new int[26];
+    public boolean isUniue(String w1 , String w2){
+
+        int[] mp = new int[26];
+
         for(char ch : w1.toCharArray()){
-            mp1[ch - 'a']++;
-            if(mp1[ch - 'a'] > 1) return false;
+            mp[ch - 'a']++;
+            //for cases like {"aa" , "bb"}
+            if(mp[ch - 'a'] > 1) return false;
         }
 
-        int[] mp2 = new int[26];
         for(char ch : w2.toCharArray()){
-            mp2[ch - 'a']++;
-            if(mp2[ch - 'a'] > 1) return false;
-        }
+            if(mp[ch - 'a'] > 0) return false;
+        } 
 
-        for(int i = 0; i < 26 ; i++){
-            if((mp1[i] == 0 && mp2[i] == 0) || (mp1[i] == 0 && mp2[i] != 0) || (mp1[i] != 0 && mp2[i] == 0)) continue;
-
-            return false;
-        }
         return true;
 
     }
@@ -32,8 +28,8 @@ class Solution {
         if(i >= n) return temp.length();
 
         int skip = 0 , take = 0;
-        if(!hasDuplicate(arr.get(i) , temp)){
-            //only exclude
+        if(!isUniue(arr.get(i) , temp)){
+            //if not uniue then we have only exclude
             skip = solve(i + 1 , arr , temp , n);
         }else{
             //skip
