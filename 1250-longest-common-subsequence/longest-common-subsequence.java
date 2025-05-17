@@ -5,6 +5,7 @@ class Solution {
         n1 = text1.length();
         n2 = text2.length();
 
+        //Approach 01--> recursion and memoization 
         t = new int[1001][1001]; // memoization 
         for(int i = 0 ; i < t.length ; i++){
             Arrays.fill(t[i] , -1);
@@ -21,7 +22,7 @@ class Solution {
 
         //both character are same then add one
         if(text1[i] == text2[j]){
-            return 1 + solve(i + 1 , j + 1 , text1 , text2);
+            return t[i][j] = 1 + solve(i + 1 , j + 1 , text1 , text2);
         }
 
         int takeS1 = solve(i , j + 1 , text1 , text2);
