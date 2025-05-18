@@ -57,6 +57,7 @@ class Solution {
             for(int j = 0 ; j < currentState.length() ; j++){
                 if(currentState.charAt(j) == prevState.charAt(j)){
                     isValid = false;
+                    break;
                 }
             }
             if(isValid){
