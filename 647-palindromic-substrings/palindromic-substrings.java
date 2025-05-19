@@ -1,24 +1,10 @@
-class Solution {
-    public int palinCount(String s , int left ,  int right ){ 
-        int count = 0;
-        while(left >= 0 && right < s.length() && s.charAt(left--) == s.charAt(right++)){
-            count++;
-        }
-        return count;
-    }
+class Solution { 
     public int countSubstrings(String s) {
         int n = s.length(); 
         int ans = 0;
+ 
 
-        // for(int i = 0 ; i < n ; i++){ 
-        //     int evenCount = palinCount(s , i , i + 1);
-        //     int oddCount = palinCount(s , i - 1 , i + 1);
-        //     ans += evenCount + oddCount + 1;
-        // }
-
-        // return ans;
-
-        //BruteForce approach
+        //BruteForce approach --> Time complexity -> O(n^3)
         // for(int i = 0 ; i < n ; i++){
         //     for(int j = i ; j < n ; j++){
         //         if(isPalinDrom(i , j , s.toCharArray())){
@@ -27,7 +13,7 @@ class Solution {
         //     }
         // }
         
-        //memoization in brute force approach
+        //memoization in brute force approach --> Time complexity-->O(n^3) and space is O(n^2)
         int[][] t = new int[n][n];
         for(int i = 0 ; i < n ; i++){
             Arrays.fill(t[i] , -1);
@@ -52,6 +38,6 @@ class Solution {
             return t[i][j] = isPalinDrom(i + 1 , j - 1 , s , t);  
         }
 
-        return 0;
+        return t[i][j] = 0;
     }
 }
