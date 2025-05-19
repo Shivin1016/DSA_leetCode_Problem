@@ -13,14 +13,37 @@ class Solution {
         //     }
         // }
         
-        //memoization in brute force approach --> Time complexity-->O(n^3) and space is O(n^2)
-        int[][] t = new int[n][n];
-        for(int i = 0 ; i < n ; i++){
-            Arrays.fill(t[i] , -1);
-        }
-        for(int i = 0 ; i < n ; i++){
-            for(int j = i ; j < n ; j++){
-                if(isPalinDrom(i , j , s.toCharArray() , t) == 1){
+        //memoization in brute force approach --> Time complexity-->O(n^2) and space is O(n^2)
+        // int[][] t = new int[n][n];
+        // for(int i = 0 ; i < n ; i++){
+        //     Arrays.fill(t[i] , -1);
+        // }
+        // for(int i = 0 ; i < n ; i++){
+        //     for(int j = i ; j < n ; j++){
+        //         if(isPalinDrom(i , j , s.toCharArray() , t) == 1){
+        //             ans++;
+        //         }
+        //     }
+        // }
+        // return ans;
+
+        //using bottom up Approach
+        int[][] t = new int[1001][1001];
+        for(int L = 1 ; L <= n ; L++){
+            for(int i = 0 ; i + L - 1 < n ; i++){
+                int j = i + L - 1;
+                if(i == j){
+                    //for length 1 string
+                    t[i][j] = 1;
+                }else if(i + 1 == j){
+                    //for length 2 string
+                    t[i][j] = (s.charAt(i) == s.charAt(j)) ? 1 : 0;
+                }else {
+                    //generic length
+                    t[i][j] = (s.charAt(i) == s.charAt(j) && t[i + 1][j - 1] == 1) ? 1 : 0;
+                }
+                //now check
+                if(t[i][j] == 1){
                     ans++;
                 }
             }
