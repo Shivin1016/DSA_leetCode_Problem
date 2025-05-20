@@ -28,17 +28,19 @@ class Solution {
 
         //now take commulative sum and also check it that it have operation >= nums[i]
         int commSum = 0;
-        int[] res = new int[m]; // store number of operation to be performed
-        for(int i =0 ; i < m ; i++){
+        // int[] res = new int[m]; // store number of operation to be performed
+        for(int i = 0 ; i < m ; i++){
             commSum += diff[i];
-            res[i] = commSum;
+            diff[i] = commSum;
+
+            if(diff[i] < nums[i]) return false;
         }
 
-        for(int i = 0 ; i < m ; i++){
-            if(res[i] < nums[i]){ //nums[i] won't become zero ever because number operation less then that nums[i];
-                return false;
-            }
-        }
+        // for(int i = 0 ; i < m ; i++){
+        //     if(res[i] < nums[i]){ //nums[i] won't become zero ever because number operation less then that nums[i];
+        //         return false;
+        //     }
+        // }
 
         return true;
          
