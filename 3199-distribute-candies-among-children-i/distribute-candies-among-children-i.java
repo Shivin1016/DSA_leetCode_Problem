@@ -17,8 +17,8 @@ class Solution {
         if(countOfChild > 3) return 0;
 
         int ways = 0;
-
-        for(int assign = 0 ; assign <= limit ; assign++){
+        //we can assign minimum(n , limit) candies to the children
+        for(int assign = 0 ; assign <= Integer.min(n , limit) ; assign++){
             // we can distribute candies from 0 to limit
             ways += solve(countOfChild + 1 , n - assign , limit); 
         }
