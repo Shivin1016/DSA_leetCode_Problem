@@ -1,7 +1,10 @@
 class Solution {
     public int findKthNumber(int n, int k) {
-        //SKip those prefix number who have less then k numbers 
 
+        // time complexity -> O(logn) ^2 
+        //space complexxity -> O(logn) // there is base 10 becuse we go diper by multiplying 10 
+
+        //SKip those prefix number who have less then k numbers 
         int curr = 1;
         k -= 1; // as we started from first number 1 then we want k -1 more number
         while(k > 0){ 
