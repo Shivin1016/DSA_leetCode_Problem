@@ -23,20 +23,17 @@ class Solution {
         int n1 = nums1.length;
         int n2 = nums2.length;
 
-        int[] nger = ngel(nums2);
-        // for(int i = 0 ; i < n2 ; i++){
-        //     System.out.println(nger[i]);
-        // }
+        int[] nger = ngel(nums2); 
+
+        Map<Integer , Integer> mp = new HashMap<>();
+        for(int i = 0 ; i < n2 ; i++){
+            mp.put(nums2[i] , i);
+        }
 
         int[] idx = new int[n1];
 
         for(int i = 0 ; i < n1 ; i++){
-            for(int j = 0 ; j < n2 ; j++){
-                if(nums1[i] == nums2[j]){
-                    idx[i] = j;
-                    break;
-                }
-            }
+            idx[i] = mp.get(nums1[i]);
         }
 
         int[] ans = new int[n1];
