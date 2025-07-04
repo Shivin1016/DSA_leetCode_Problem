@@ -11,12 +11,8 @@ class Solution {
 
         for(String word : words){
             //for row1 
-            if(check(word.toCharArray() , row1)){
+            if((check(word.toCharArray() , row1)) || (check(word.toCharArray() , row2)) || (check(word.toCharArray() , row3))){
                 ans.add(word); 
-            }else if(check(word.toCharArray() , row2)){
-                ans.add(word); 
-            }else if(check(word.toCharArray() , row3)){
-                ans.add(word);
             }
         }
 
