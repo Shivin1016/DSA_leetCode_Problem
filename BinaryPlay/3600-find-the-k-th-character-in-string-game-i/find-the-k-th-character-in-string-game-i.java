@@ -23,13 +23,16 @@ class Solution {
         //Approach 02 -> without using extra space
         //finding number of shifts , that how many times a shifts --> and shift is nothing but total number of set bits of (k - 1)
 
-        int shift = 0;
-        int idx = k - 1;
+        // int shift = 0;
+        // int idx = k - 1;
 
-        while(idx > 0){
-            if(idx % 2 == 1) shift++;
-            idx = idx / 2;
-        }
+        // while(idx > 0){
+        //     if(idx % 2 == 1) shift++;
+        //     idx = idx / 2;
+        // }
+
+        //using bitCount function
+        int shift = Integer.bitCount(k - 1);
 
         return (char)('a' + shift);
 
