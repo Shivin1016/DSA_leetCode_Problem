@@ -3,15 +3,15 @@ class Solution {
 
         int n = word.length(); 
 
-        int possibelOriginalString = n; 
+        int possibelOriginalString = 0; 
 
         for(int i = 1 ; i < n ; i++){
-            if(word.charAt(i) != word.charAt(i - 1)){
-                possibelOriginalString--;
+            if(word.charAt(i) == word.charAt(i - 1)){
+                possibelOriginalString++;
             }
         }
 
-        return possibelOriginalString;
+        return possibelOriginalString + 1; // last whole string can also be the intended string 
          
 
     }
