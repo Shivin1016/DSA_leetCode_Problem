@@ -21,15 +21,37 @@ class Solution {
 
         boolean[] visited = new boolean[n];
         int countOfProvinces = 0;
+        Queue<Integer> que = new LinkedList<>();
 
         for(int i = 0 ; i < n ; i++){
             if(!visited[i]){
-                dfs(isConnected , i , visited);
+                //using dfs
+                // dfs(isConnected , i , visited);
+
+                //using BFS
+                bfs(isConnected , i , que , visited);
                 countOfProvinces++;
             }
         }
 
         return countOfProvinces;
+    }
+
+    public void bfs(int[][] isConnected , int u , Queue<Integer> que , boolean[] visited){
+        que.offer(u);
+        visited[u] = true;
+
+        while(!que.isEmpty()){
+            int node = que.poll();
+            for(int v = 0 ; v < n ; v++){
+                if(!visited[v] && isConnected[node][v] == 1){
+                    que.offer(v);
+                    visited[v] = true;
+                }
+            }
+        }
+
+
     }
 
     public void dfs(int[][] isConnected , int u , boolean[] visited){
