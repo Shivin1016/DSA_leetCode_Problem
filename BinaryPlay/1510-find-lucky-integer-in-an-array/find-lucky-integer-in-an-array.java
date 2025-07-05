@@ -2,17 +2,16 @@ class Solution {
     public int findLucky(int[] arr) {
         int n = arr.length;
 
-        Map<Integer , Integer> mp = new HashMap<>();
+        int[] frq = new int[501];
 
         for(int num : arr){
-            mp.put(num , mp.getOrDefault(num , 0) + 1);
+            frq[num]++;
         }
 
         int lucky = -1;
-        for(int key : mp.keySet()){
-            int val = mp.get(key);
-            if(val == key){
-                lucky = Math.max(lucky , val);
+        for(int i = 1 ; i < 501 ; i++){ 
+            if(i == frq[i]){
+                lucky = Math.max(lucky , frq[i]);
             }
         }
 
