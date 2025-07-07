@@ -21,16 +21,51 @@ class Solution {
         // hence this is the problem of -> cycle detection in directed graph
 
         //using DFS  
-        boolean[] visited = new boolean[numCourses];
-        boolean[] inRecursion = new boolean[numCourses];
+        // boolean[] visited = new boolean[numCourses];
+        // boolean[] inRecursion = new boolean[numCourses];
 
-        for(int i = 0 ; i < numCourses ; i++){
-            if(visited[i] == false && DFS(adj , i , visited , inRecursion)){
-                return false ; // cycle detected
+        // for(int i = 0 ; i < numCourses ; i++){
+        //     if(visited[i] == false && DFS(adj , i , visited , inRecursion)){
+        //         return false ; // cycle detected
+        //     }
+        // }
+        // return true;
+
+        //using BFS --> if we can write topological sort order then ALL course can be completed
+        Queue<Integer> que = new LinkedList<>();
+        int[] inDegree = new int[numCourses];
+        for(int u = 0 ; u < numCourses ; u++){
+            for(int v : adj.get(u)){
+                inDegree[v]++;
             }
         }
 
-        return true;
+        return BFS(adj , numCourses , que , inDegree);
+
+    }
+
+    public boolean BFS(List<List<Integer>> adj , int n , Queue<Integer> que , int[] inDegree){
+        for(int i = 0 ; i < n ; i++){
+            if(inDegree[i] == 0){
+                que.offer(i);
+            }
+        }
+        int count = 0 ;
+
+        while(!que.isEmpty()){
+
+            int u = que.poll();
+            count++;
+
+            for(int v : adj.get(u)){
+                inDegree[v]--;
+                if(inDegree[v] == 0){
+                    que.offer(v);
+                }
+            }
+        }
+
+        return count == n;
     }
 
     public boolean DFS(List<List<Integer>> adj , int u , boolean[] visited , boolean[] inRecursion){
