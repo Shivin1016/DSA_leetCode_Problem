@@ -11,7 +11,12 @@ class Solution {
         int day = events[0][0];
         int i = 0;
 
-        while(!pq.isEmpty() || i < n){  
+        while(!pq.isEmpty() || i < n){ 
+            
+            if(pq.isEmpty()){
+                day = events[i][0];
+            } 
+
             while(i < n && events[i][0] == day){
                 pq.offer(events[i][1]);
                 i++;
