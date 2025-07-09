@@ -3,6 +3,7 @@ class Solution {
     int[] rank;
     public long countPairs(int n, int[][] edges) {
 
+        // Using DSU 
         parent = new int[n];
         rank = new int[n]; 
 
@@ -11,13 +12,13 @@ class Solution {
         }
 
         for(int[] edge : edges){
-             
+
             int u = edge[0];
             int v = edge[1];
 
             int parent_u = find(u);
             int parent_v = find(v);
-
+            //make components --> if parent not same then make union
             if(parent_u != parent_v){
                 union(u , v);
             }  
@@ -32,7 +33,10 @@ class Solution {
         }
         long unreachablePair = 0;
         for(int val : mp.values()){
-            unreachablePair += (val * (totalNode - val));
+            //remaingNodes by which pairs are formed
+            long remainingNode = totalNode - val;
+            unreachablePair += (val * remainingNode);
+            //remove current component nodes
             totalNode -= val;
         } 
 
