@@ -12,18 +12,20 @@ class Solution {
         gap.add(eventTime - prev);
 
         //apply Siliding window for size K + 1
-        int sum = 0 , i = 0 , j = k; 
-        for(int p = 0 ; p <= n && p <= k ; p++){
-            sum += gap.get(p);
-        } 
+        int sum = 0 , i = 0 , j = 0;
         int res = 0;
-        res = Math.max(sum , res);
-        while(j < n){
-            sum -= gap.get(i++);
-            sum += gap.get(++j);
-            res = Math.max(sum , res);
-        }
+        while(j < gap.size()){ 
 
+            sum += gap.get(j);
+
+            if((j - i + 1) == (k + 1)){
+                res = Math.max(res , sum); 
+                sum -= gap.get(i);
+                i++;
+            }
+
+            j++;
+        }  
         return res;
     }
 }
