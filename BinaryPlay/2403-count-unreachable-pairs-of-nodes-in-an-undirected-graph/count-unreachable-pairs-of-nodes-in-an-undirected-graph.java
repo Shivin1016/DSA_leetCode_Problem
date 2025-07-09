@@ -2,13 +2,13 @@ class Solution {
     int[] parent;
     int[] rank;
 
-    int count = 0;
+    int size = 0;
     public void DFS(List<List<Integer>> adj , int u , boolean[] visited){
         if(visited[u] == true){
             return ;
         }
         visited[u] = true; 
-        count++;
+        size++;
         for(int v : adj.get(u)){
             if(!visited[v]){
                 DFS(adj , v , visited); 
@@ -29,25 +29,21 @@ class Solution {
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-        boolean[] visited = new boolean[n];
-        List<Integer> componentNodes = new ArrayList<>();
-        for(int i = 0 ; i < n ; i++){
-            if(!visited[i]){ 
-                count = 0 ;
-                DFS(adj , i , visited);
-                componentNodes.add(count);
-            }
-        }
-
+        boolean[] visited = new boolean[n]; 
+        
         long unreachablePair = 0;
         long totalNode = n;
-        for(int nodes : componentNodes){ 
-            //remaingNodes by which pairs are formed
-            long remainingNode = totalNode - nodes;
-            unreachablePair += (nodes * remainingNode);
-            //remove current component nodes
-            totalNode -= nodes;
-        } 
+        for(int i = 0 ; i < n ; i++){
+            if(!visited[i]){ 
+                size = 0 ;
+                DFS(adj , i , visited); 
+                //remaingNodes by which pairs are formed
+                long remainingNode = totalNode - size;
+                unreachablePair += (size * remainingNode);
+                //remove current component nodes
+                totalNode -= size;
+            }
+        }
 
         return unreachablePair;
 
