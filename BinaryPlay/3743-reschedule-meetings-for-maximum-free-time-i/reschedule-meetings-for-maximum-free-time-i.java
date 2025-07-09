@@ -20,7 +20,7 @@ class Solution {
 
             sum += gap.get(j);
 
-            while(i < n && (j - i + 1) > (k + 1)){
+            if(i < n && (j - i + 1) > (k + 1)){
                 sum -= gap.get(i);
                 i++;
             }
