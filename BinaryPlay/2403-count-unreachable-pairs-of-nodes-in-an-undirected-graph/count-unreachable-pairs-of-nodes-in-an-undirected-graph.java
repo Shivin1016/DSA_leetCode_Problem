@@ -4,36 +4,23 @@ class Solution {
     public long countPairs(int n, int[][] edges) {
 
         parent = new int[n];
-        rank = new int[n];
-
-        List<List<Integer>> adj = new ArrayList<>();
-
-        for(int i = 0 ; i < n ; i++){
-            adj.add(new ArrayList<>());
-        }
-        for(int[] edge : edges){
-            int u = edge[0];
-            int v = edge[1];
-
-            adj.get(u).add(v);
-            adj.get(v).add(u);
-        }
+        rank = new int[n]; 
 
         for(int i = 0 ; i < n ; i++){
             parent[i] = i;
         }
 
-        for(int u = 0 ; u < n ; u++){
-            for(int v : adj.get(u)){
-                if(u < v){
-                    int parent_u = find(u);
-                    int parent_v = find(v);
+        for(int[] edge : edges){
+             
+            int u = edge[0];
+            int v = edge[1];
 
-                    if(parent_u != parent_v){
-                        union(u , v);
-                    }
-                }
-            }
+            int parent_u = find(u);
+            int parent_v = find(v);
+
+            if(parent_u != parent_v){
+                union(u , v);
+            }  
         }
 
         long totalNode = n;
