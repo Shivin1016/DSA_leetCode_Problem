@@ -29,7 +29,7 @@ class Solution {
 
         int maxFree = 0;
         for(int i = 1 ; i < size ; i++){
-
+            //event is present at (i - 1) idx 
             int duration = endTime[i - 1] - startTime[i - 1]; 
 
             //free gaps
@@ -37,7 +37,7 @@ class Solution {
             int f2 = freeArray.get(i - 1);//adjacent to left of event
 
             //case 1 --> complete moving the event
-            if(maxFreeRight[i] >= duration || maxFreeLeft[i - 1] >= duration){
+            if(duration <= Math.max(maxFreeLeft[i - 1] , maxFreeRight[i])){
                 maxFree = Math.max(maxFree , f1 + duration + f2);
             }
             else{
