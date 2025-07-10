@@ -22,13 +22,15 @@ class Solution {
             maxFreeRight[i] = Math.max(maxFreeRight[i + 1] , freeArray.get(i + 1));
         }
 
-        int[] maxFreeLeft = new int[size];
-        for(int i = 1 ; i < n ; i++){
-            maxFreeLeft[i] = Math.max(maxFreeLeft[i - 1] , freeArray.get(i - 1));
-        }
+        // int[] maxFreeLeft = new int[size];
+        // for(int i = 1 ; i < n ; i++){
+        //     maxFreeLeft[i] = Math.max(maxFreeLeft[i - 1] , freeArray.get(i - 1));
+        // }
+
 
         int maxFree = 0;
-        for(int i = 1 ; i < size ; i++){
+        int maxFreeLeft = 0;
+        for(int i = 1 ; i < size ; i++){ 
             //event is present at (i - 1) idx 
             int duration = endTime[i - 1] - startTime[i - 1]; 
 
@@ -37,13 +39,15 @@ class Solution {
             int f2 = freeArray.get(i - 1);//adjacent to left of event
 
             //case 1 --> complete moving the event
-            if(duration <= Math.max(maxFreeLeft[i - 1] , maxFreeRight[i])){
+            if(duration <= Math.max(maxFreeLeft , maxFreeRight[i])){
                 maxFree = Math.max(maxFree , f1 + duration + f2);
             }
             else{
                 //case 2--> shift towards left or right
                 maxFree = Math.max(maxFree , f1 + f2);
             }
+            // Dynamically Update to maxFreeLeft
+            maxFreeLeft = Math.max(maxFreeLeft , freeArray.get(i - 1));
         }
 
         return maxFree;
