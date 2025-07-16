@@ -1,11 +1,18 @@
-class Solution {
-    int n ;
-    int[][] memo;
+class Solution { 
     public int maximumLength(int[] nums) {
 
-        n = nums.length;
+        int n = nums.length;
 
-        int oddCnt = 0 , evenCnt = 0 , alterCnt = 1;
+        //if (sub[0] + sub[1]) % 2 == 0 --> both can be even or odd number
+        //if (sub[0] + sub[1]) % 2 == 1 --> one can be odd or other even or vice versa
+
+        //for long subsequence valid
+        //we can pick all even numbers that % 2 == 0
+        //we can pick all odd numbers that % 2 == 0
+        //we can pick alternative even odd that % 2 == 1
+
+        int oddCnt = 0; // count odd number
+        int evenCnt = 0 , alterCnt = 1;
         int parity = nums[0] % 2;
 
         for(int i = 0 ; i < n ; i++){
@@ -13,56 +20,18 @@ class Solution {
             int mod = nums[i] % 2;
 
             if(mod == 0){
-                evenCnt++;
-            }else{
-                oddCnt++;
+                evenCnt++; //we can pick all even numbers that % 2 == 0
+            }
+            else{
+                oddCnt++; //we can pick all odd numbers that % 2 == 0
             }
 
             if(i > 0 && mod == 1 - parity){
-                alterCnt++;
+                alterCnt++;//we can pick alternative even odd that % 2 == 1
                 parity = 1 - parity;
             }
         }
 
-        return Math.max(alterCnt , Math.max(evenCnt , oddCnt));
-
-        // // Memoization
-        // memo = new int[n + 1][n + 1];
-        // for(int i = 0 ; i < n ; i++){
-        //     Arrays.fill(memo[i] , -1);
-        // }
-
-        // int[] temp = new int[n - 1];
-        // for(int i = 1 ; i < n ; i++){
-        //     temp[i - 1] = ((nums[i - 1] + nums[i]) % 2);
-        // }
-
-        // return 1 + solve(temp , 0 , -1);
-    }
-
-    public int solve(int[] temp , int i , int prev){
-
-        if(i >= (n - 1)){
-            return 0;
-        }
-
-        if(prev != -1 && memo[i][prev] != -1){
-            return memo[i][prev];
-        }
-
-        //take part
-        int take = 0; 
-        if(prev == -1 || prev == temp[i]){
-            take = 1 + solve(temp , i + 1 , temp[i]);
-        }
-
-        //skip part
-        int skip = 0 + solve(temp , i + 1 , prev);
-
-        if(prev != -1){
-            memo[i][prev] = Math.max(take , skip);
-        }
-
-        return Math.max(take , skip);
+        return Math.max(alterCnt , Math.max(evenCnt , oddCnt)); 
     } 
 }
