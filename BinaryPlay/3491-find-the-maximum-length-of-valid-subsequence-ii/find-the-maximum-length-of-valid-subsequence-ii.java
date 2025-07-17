@@ -13,11 +13,11 @@ class Solution {
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < i ; j++){
                 int mod = (nums[i] + nums[j]) % k;
-                dp[i][mod] = Math.max(dp[i][mod] , dp[j][mod] + 1);
-                ans = Math.max(ans , dp[i][mod]);
+                dp[i][mod] = Math.max(dp[i][mod] , dp[j][mod] + 1); 
+                ans = Math.max(dp[i][mod] , ans);
             }
         }
 
-        return ans + 1;
+        return ans + 1; // for pairs add 1
     }
 }
