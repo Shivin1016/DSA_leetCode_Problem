@@ -3,42 +3,22 @@ class Solution {
 
         int n = folder.length;
 
-        Arrays.sort(folder);
-        Set<String> st = new HashSet<>();
+        //Sort them 
+        Arrays.sort(folder); 
+        List<String> ans = new ArrayList<>();
 
-        st.add(folder[0]);
+        String prev = folder[0]; 
+        ans.add(folder[0]);
 
         for(int i = 1; i < n ; i++){
-
-            String str = folder[i];
-
-            boolean isSubFolder = false;
-            String subStr = "/";
-            int j = 1;
-            while(j < str.length()){
-                while(j < str.length() && str.charAt(j) != '/'){
-                    subStr += str.substring(j , j + 1);
-                    j++;
-                }
-                if(st.contains(subStr)){
-                    //subFolder
-                    isSubFolder = true;
-                    break;
-                }
-                subStr += '/';
-                j++;
+            String str = folder[i]; 
+            //whole folder executed --> no subFolder 
+            if(str.indexOf(prev + '/') != 0){
+                ans.add(str);
+                prev = str;
             }
+        } 
 
-            //whole folder executed --> no subFolder
-            if(isSubFolder == false){
-                st.add(str);
-            }
-        }
-
-        List<String> ans = new ArrayList<>();
-        for(String str : st){
-            ans.add(str);
-        }
         return ans;
     }
 }
