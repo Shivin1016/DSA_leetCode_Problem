@@ -10,21 +10,14 @@ class Solution {
             mp.put(y_coordinate , mp.getOrDefault(y_coordinate , 0) + 1);
         }
 
-        //make pairs 
-        long[] pairs = new long[mp.size()];
-        int i = 0;
+        //make pairs and then make groups of pairs which can make --> quadrilateral
         long mod = 1000000007;
-        for(int val : mp.values()){
-            long pair = (long)val * (val - 1) / 2 % mod;
-            pairs[i++] = pair; 
-        }
-        
-        //make groups of pairs which can make --> quadrilateral
         long ans = 0 , s = 0; 
-        for(long p : pairs){
-            ans = (ans + (p * s)) % mod;
-            s = (s + p) % mod; 
-        }
+        for(int val : mp.values()){
+            long pair = (long)val * (val - 1) / 2 % mod; 
+            ans = (ans + (pair * s)) % mod;
+            s = (s + pair) % mod; 
+        } 
 
         return (int)(ans % mod);
 
