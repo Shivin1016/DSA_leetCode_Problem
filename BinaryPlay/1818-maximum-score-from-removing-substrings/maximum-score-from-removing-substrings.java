@@ -2,8 +2,10 @@ class Solution {
 
     public String removeSubStr(String str , String matchStr){
 
-        Stack<Character> st = new Stack<>();
         int n = str.length();
+        StringBuilder sb = new StringBuilder(str);
+        //without using stack
+        /*Stack<Character> st = new Stack<>();
 
         for(int i = 0 ; i < n ; i++){
             char ch = str.charAt(i);
@@ -21,6 +23,25 @@ class Solution {
         }
         sb.reverse();
         return sb.toString();
+        */
+
+        int i = 0 ; //for writing purpose
+        for(int j = 0 ; j < n ; j++){ //for reading each character
+
+            //whatever j reads it will print on i'th pointer
+            sb.setCharAt(i , sb.charAt(j));
+
+            // increament i and check that before i is there any matchString
+            i++;
+            if(i >= 2 && sb.charAt(i - 2) == matchStr.charAt(0) && sb.charAt(i - 1) == matchStr.charAt(1)){
+                i -= 2;
+            }
+
+        }
+        //erase character from i to n
+        sb.delete(i , n);
+        return sb.toString();
+
     }
     public int maximumGain(String s, int x, int y) {
         int n = s.length();
@@ -38,7 +59,7 @@ class Solution {
         // System.out.println(maxString);
 
         //second pass is for min point --> remaining string-->after deleting first pass string
-        System.out.println(first_pass + " " + minString);
+        // System.out.println(first_pass + " " + minString);
         String second_pass = removeSubStr(first_pass , minString);
         int remainLen = second_pass.length();
         removedChar = len - remainLen ;
