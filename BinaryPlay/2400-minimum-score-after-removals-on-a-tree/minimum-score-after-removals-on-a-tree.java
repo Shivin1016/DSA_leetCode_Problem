@@ -3,7 +3,7 @@ class Solution {
     int[] inTime;
     int[] xorSubtree;
     int timer;
-    public void xorDfs(int[] nums , int u , int parent , List<List<Integer>> adj){
+    private void xorDfs(int[] nums , int u , int parent , List<List<Integer>> adj){
         xorSubtree[u] ^= nums[u];
         inTime[u] = timer; 
         timer++;
@@ -16,7 +16,7 @@ class Solution {
         outTime[u] = timer;
         timer++;
     }
-    public boolean isAncestor(int u , int v){
+    private boolean isAncestor(int u , int v){
         return (inTime[v] >= inTime[u] && outTime[v] <= outTime[u]);
     }
     private int getScore(int xor1 , int xor2 , int xor3){
