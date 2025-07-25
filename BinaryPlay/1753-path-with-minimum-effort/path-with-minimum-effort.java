@@ -24,6 +24,11 @@ class Solution {
             int diff = p[0];
             int x = p[1];
             int y = p[2];
+            
+            //we can return if we get destination point because min - heap ke top par hamesha minimum value hi hogi
+            if(x == m - 1 && y == n - 1){
+                return result[m - 1][n - 1];
+            }
 
             for(int[] dir : direction){
                 int x_ = x + dir[0];
