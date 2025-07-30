@@ -1,42 +1,24 @@
 class Solution {
-    int n;
     public int longestSquareStreak(int[] nums) {
-        n = nums.length;
-        Arrays.sort(nums);  
+        int n = nums.length;
 
-        //using Map
-        int maxStreak = 1;
-        Map<Integer , Integer> mp = new HashMap<>();
+        //without sorting
+        Set<Integer> st = new HashSet<>();
 
+        for(int num : nums) st.add(num);
+        int maxStreak = 0;
         for(int num : nums){
-            int sq = (int)Math.sqrt(num); 
-            int streak = 1;
-            if(sq * sq == num && mp.containsKey(sq)){
-                //perfect square
-                streak = 1 + mp.get(sq);
-                mp.put(num , streak);
-            }else{
-                mp.put(num , 1);
+            int currStreak = 0 ;
+            long currNum = num;
+            while(st.contains((int)currNum)){
+                currStreak++;
+                if(currNum * currNum > 1e5){
+                    break;
+                }
+                currNum *= currNum;
             }
-            maxStreak = Math.max(maxStreak , streak);
+            maxStreak = Math.max(maxStreak , currStreak);
         }
         return maxStreak > 1 ? maxStreak : -1;
-
-        // int longSqStreak = solve(nums , 0 , -1); 
-
-        // return longSqStreak > 1 ? longSqStreak : -1;
-    }
-
-    public int solve(int[] nums , int i , int prev){
-        if(i >= n) return 0;
-
-        int take = 0;
-        if(prev == -1 || (prev*prev) == nums[i]){ 
-            take = 1 + solve(nums , i + 1 , i);
-        } 
-
-        int skip = solve(nums , i + 1 , prev);
-        System.out.println(skip  + " " + take);
-        return Math.max(take , skip);
     }
 }
