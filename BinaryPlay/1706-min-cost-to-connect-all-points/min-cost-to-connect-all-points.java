@@ -1,46 +1,60 @@
 class Solution {
-    public int minCostConnectPoints(int[][] points) { 
+    int[] rank;
+    int[] parent;
+    public int find(int u){
+        if(u == parent[u]) return u;
+
+        return parent[u] = find(parent[u]);
+    }
+    public void union(int u , int v){
+        int u_parent = find(u);
+        int v_parent = find(v);
+
+        if(u_parent == v_parent) return;
+
+        if(rank[u_parent] > rank[v_parent]){
+            parent[v_parent] = u_parent;
+        }else if(rank[u_parent] < rank[v_parent]){
+            parent[u_parent] = v_parent;
+        }else{
+            parent[v_parent] = u_parent;
+            rank[u_parent]++;
+        }
+    }
+    public int minCostConnectPoints(int[][] points) {
+        //using kruskal algo
         int n = points.length;
-
-        //adjency List --> converting points into node
-        List<List<int[]>> adj = new ArrayList<>();
-        for(int i = 0 ; i < n ; i++){
-            adj.add(new ArrayList<>());
-        }
-
-        for(int i = 0 ; i < n ; i++){
-            for(int j = i + 1 ; j < n ; j++){
-                int dist = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
-                adj.get(i).add(new int[]{j , dist});
-                adj.get(j).add(new int[]{i , dist});
+        List<int[]> adj = new ArrayList<>();
+         
+        for(int u = 0 ; u < n ; u++){
+            for(int v = u + 1 ; v < n ; v++){
+                int dist = Math.abs(points[u][0] - points[v][0]) + Math.abs(points[u][1] - points[v][1]);
+                adj.add(new int[]{u , v , dist}); 
+                adj.add(new int[]{v , u , dist}); 
             }
         }
 
-        var pq = new PriorityQueue<int[]>((a , b) -> a[0] - b[0]); 
-        pq.add(new int[]{0 , 0}); // store dist , node(0) 
-
-        boolean[] inMST = new boolean[n]; //stores nodes those are taken 
-        int minWt = 0;
-
-        while(!pq.isEmpty()){ 
-            int[] p = pq.poll();
-            int wt = p[0];
-            int node = p[1]; 
-
-            if(inMST[node]) continue; //if inMST then skip
-
-            //else take
-            inMST[node] = true;
-            minWt += wt;
-
-            for(int[] v : adj.get(node)){   
-                int neighbor = v[0];
-                int dist = v[1];
-                if(!inMST[neighbor]){ 
-                    pq.add(new int[]{dist , neighbor});
-                }
+        Collections.sort(adj , new Comparator<int[]>(){
+            public int compare(int[] a , int[] b){
+                return Integer.compare(a[2] , b[2]);
             }
+        });
+
+        parent = new int[n];
+        for(int i = 0 ; i < n ;i++) parent[i] = i;
+
+        rank = new int[n];
+        int minDist = 0;
+        for(int[] v : adj){
+            int u_parent = find(v[0]);
+            int v_parent = find(v[1]);
+
+            if(u_parent != v_parent){
+                union(v[0] , v[1]);
+                minDist += v[2];
+            } 
         }
-        return minWt;
+
+        return minDist;
     }
 }
