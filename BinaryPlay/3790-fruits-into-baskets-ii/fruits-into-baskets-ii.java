@@ -2,25 +2,20 @@ class Solution {
     public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
         int n = fruits.length;
 
-        int remain = 0;
-        int[] filled = new int[1001];
+        int filled_Count = 0; 
 
-        for(int i = 0 ; i < n ; i++){
+        for(int i = 0 ; i < n ; i++){ 
 
-            boolean isfill = false;
+            for(int j = 0 ; j < n ; j++){ 
 
-            for(int j = 0 ; j < n ; j++){
-
-                if(filled[j] == 1) continue;
-
-                if(fruits[i] <= baskets[j]){
-                    filled[j] = 1; 
-                    isfill = true;
+                if(fruits[i] <= baskets[j]){ 
+                    filled_Count++; 
+                    baskets[j] = 0;
                     break;
                 }
-            } 
-            if(!isfill) remain++;
+            }  
         }
+        int remain = n - filled_Count;
         return remain;
     }
 }
