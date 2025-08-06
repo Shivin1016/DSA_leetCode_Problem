@@ -1,13 +1,15 @@
 class Solution {
     public int[][] validArrangement(int[][] pairs) {
+
         //make adjency list
         Map<Integer , List<Integer>> adj = new HashMap<>();
 
         //make indegree and outdegree array
-        Map<Integer , Integer> in_degree = new HashMap<>(); //key ->node , value -> degree
-        Map<Integer , Integer> out_degree = new HashMap<>();
+        Map<Integer , Integer> in_degree = new HashMap<>(); //key ->node , value -> in_degree
+        Map<Integer , Integer> out_degree = new HashMap<>(); //key ->node , value -> out_degree
 
         for(int[] pair : pairs){
+
             int x = pair[0];
             int y = pair[1];
 
@@ -31,7 +33,7 @@ class Solution {
             }  
         }
 
-        //now make DFS traversal
+        //now make DFS traversal using stack 
         List<Integer> eularPath = new ArrayList<>(); 
         Stack<Integer> st = new Stack<>();
 
