@@ -34,23 +34,8 @@ class Solution {
         }
 
         //now make DFS traversal using stack 
-        List<Integer> eularPath = new ArrayList<>(); 
-        Stack<Integer> st = new Stack<>();
-
-        st.add(startingNode);
-
-        while(!st.isEmpty()){
-            int curr = st.peek();
-            if(adj.containsKey(curr) && !adj.get(curr).isEmpty()){
-                int neighbor = adj.get(curr).get(0);
-                st.add(neighbor);
-                adj.get(curr).remove(0);
-            }else{
-                //no neighbor
-                eularPath.add(curr);
-                st.pop();
-            }
-        }
+        List<Integer> eularPath = new ArrayList<>();  
+        dfs(adj , startingNode , eularPath);
 
         //now reverse it
         Collections.reverse(eularPath);
@@ -61,8 +46,14 @@ class Solution {
             ans[i][1] = eularPath.get(i + 1);
         }
 
-        return ans;
+        return ans; 
+    }
 
- 
+    public void dfs(Map<Integer , List<Integer>> adj , int startNode , List<Integer> eularPath){
+        while(adj.containsKey(startNode) && !adj.get(startNode).isEmpty()){
+            int neighbor = adj.get(startNode).remove(0);
+            dfs(adj , neighbor , eularPath);
+        }
+        eularPath.add(startNode);
     }
 }
