@@ -1,8 +1,7 @@
 class Solution {
 
     int n ;
-    int[][] memo1 ;
-    int[][] memo2;
+    int[][] memo; 
 
     public int maxCollectedFruits(int[][] fruits) {
         
@@ -12,15 +11,17 @@ class Solution {
         //hence child1 can only move on diagonal cell
         int c1 = child1Collection(fruits); 
 
+        //memoization
+        memo = new int[n + 1][n + 1];
+        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo[i] , -1);
+
         //it can only moves within (i < j) points --> means can't go other side of diagonal
-        memo1 = new int[n + 1][n + 1];
-        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo1[i] , -1);
 
         int c2 = child2Collection(0 , n - 1 , fruits);
 
-        //it can only moves within (i > j) points --> means can't go other side of diagonal
-        memo2 = new int[n + 1][n + 1];
-        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo2[i] , -1);
+        memo = new int[n + 1][n + 1];
+        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo[i] , -1);
+        //it can only moves within (i > j) points --> means can't go other side of diagonal 
         int c3 = child3Collection(n - 1 , 0 , fruits);
 
         return c1 + c2 + c3;
@@ -49,7 +50,7 @@ class Solution {
             return 0;
         }
 
-        if(memo1[i][j] != -1) return memo1[i][j];
+        if(memo[i][j] != -1) return memo[i][j];
 
         //(i , j) ->(i + 1 , j - 1) bottom left
         int bottom_left = fruits[i][j] + child2Collection(i + 1 , j - 1 , fruits);
@@ -60,7 +61,7 @@ class Solution {
         //(i , j) ->(i + 1 , j + 1) bottom right
         int bottom_right = fruits[i][j] + child2Collection(i + 1 , j + 1 , fruits);
 
-        return memo1[i][j] = Math.max(bottom_left , Math.max(bottom_down , bottom_right));
+        return memo[i][j] = Math.max(bottom_left , Math.max(bottom_down , bottom_right));
     }
 
     public int child3Collection(int i , int j , int[][] fruits){
@@ -77,7 +78,7 @@ class Solution {
         //constaint for c3 --> apne diagona; side ke opposite side chala jaye agr 
         if(i < j || i == j) return 0;
 
-        if(memo2[i][j] != -1) return memo2[i][j];
+        if(memo[i][j] != -1) return memo[i][j];
 
         //top right (i , j) --> (i - 1 , j  + 1)
         int top_right = fruits[i][j] + child3Collection(i - 1 , j + 1 , fruits);
@@ -88,6 +89,6 @@ class Solution {
         // bottom right (i , j) --> (i + 1 , j + 1)
         int bottom_right = fruits[i][j] + child3Collection(i + 1 , j + 1 , fruits);
 
-        return memo2[i][j] = Math.max(top_right , Math.max(top_up , bottom_right));
+        return memo[i][j] = Math.max(top_right , Math.max(top_up , bottom_right));
     }
 }
