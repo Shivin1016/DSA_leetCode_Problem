@@ -1,18 +1,15 @@
 class Solution {
     public String largestGoodInteger(String num) {
-        int n = num.length();
-        String max = "";
+        //we have to find unique digits in string of length 3
+        // as constraint is 1000 so , string can be
+        String[] str = {"999" , "888" , "777" , "666" , "555" ,"444" , "333" ,"222" , "111" , "000"};
 
-        for(int i = 0 ; i < n - 2 ; i++){
-
-            String str = num.substring(i , i + 3);
-
-            if(str.charAt(0) == str.charAt(1) && str.charAt(1) == str.charAt(2)){
-                if(str.compareTo(max) > 0){
-                    max = str;
-                }
+        for(int i = 0 ; i < str.length ; i++){
+            //check each i indx of str in num
+            if(num.contains(str[i])){
+                return str[i]; // as str is in descending order so it will give max value in starting;
             }
         }
-        return max;
+        return "";
     }
 }
