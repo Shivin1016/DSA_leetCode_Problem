@@ -3,8 +3,7 @@ class Solution {
         if(n <= 0) return false;
         
         //using basic mathmatics approach
-        double x = Math.log10(n) / Math.log10(4);
-
+        double x = Math.log(n) / Math.log(4); 
         return x == (int)x ;
     }
 }
