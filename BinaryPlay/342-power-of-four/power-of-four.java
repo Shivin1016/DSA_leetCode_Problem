@@ -3,7 +3,8 @@ class Solution {
         if(n <= 0) return false;
         
         //using basic mathmatics approach
-        double x = Math.log(n) / Math.log(4); 
-        return x == (int)x ;
+        int x = (int)(Math.log(n) / Math.log(4));  
+
+        return n == Math.pow(4 , x);
     }
 }
