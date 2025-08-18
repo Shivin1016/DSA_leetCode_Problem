@@ -1,24 +1,14 @@
 class Solution {
-    int n ;
-    long[][] memo;
     public long maxAlternatingSum(int[] nums) {
-        n = nums.length;
+        int n = nums.length;
 
-        memo = new long[n + 1][2];
-        for(int i = 0 ; i < memo.length ; i++) Arrays.fill(memo[i] , -1);
-
-        return solve(nums , 0 , 0);
-    }
-    public long solve(int[] nums , int idx , int evenOdd){
-        if(idx >= n) return 0;
-
-        if(memo[idx][evenOdd] != -1) return memo[idx][evenOdd];
-
-        long skip = solve(nums , idx + 1 , evenOdd);
-
-        int val = (evenOdd == 0) ? nums[idx] : -nums[idx];
-        long take = val + solve(nums , idx + 1 , 1- evenOdd);
-
-        return memo[idx][evenOdd] = Math.max(take , skip);
+        long[][] dp = new long[n + 1][2];
+        for(int i = 1 ; i <= n ; i++){
+            // evenLenSub --> so minus nums[i - 1] in past(i - 1) if take
+            dp[i][0] = Math.max(dp[i - 1][1] - nums[i - 1] , dp[i - 1][0]);
+             // oddLenSub --> so plus nums[i - 1] in past(i - 1)  if take
+            dp[i][1] = Math.max(dp[i - 1][0] + nums[i - 1] , dp[i - 1][1]);
+        }
+        return Math.max(dp[n][0] , dp[n][1]);
     }
 }
