@@ -6,15 +6,26 @@ class Solution {
         int i = 0 , j = 0;
 
         while(j < n){
-            while(j < n && nums[j] != 0){
-                j++;
+            if(nums[j] == 0){
+                subArrayCnt += (j - i + 1); 
+            }else{
                 i = j;
+                i++;
             }
-            if(j < n){
-                subArrayCnt += (j - i + 1);
-                j++;
-            }
+            j++;
+
         }
+
+        // while(j < n){
+        //     while(j < n && nums[j] != 0){
+        //         j++;
+        //         i = j;
+        //     }
+        //     if(j < n){
+        //         subArrayCnt += (j - i + 1);
+        //         j++;
+        //     }
+        // }
         return subArrayCnt;
     }
 }
