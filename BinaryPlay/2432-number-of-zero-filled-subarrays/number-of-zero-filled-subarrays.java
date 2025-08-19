@@ -2,19 +2,18 @@ class Solution {
     public long zeroFilledSubarray(int[] nums) {
         int n = nums.length;
 
-        long subArrayCnt = 0;
-        int i = 0 , j = 0;
+        long subArrayCnt = 0; 
 
-        while(j < n){
-            if(nums[j] == 0){
-                subArrayCnt += (j - i + 1); 
+        long cnt = 0;
+        for(int i = 0 ; i < n ; i++){
+            if(nums[i] == 0){
+                cnt++;
             }else{
-                i = j;
-                i++;
+                cnt = 0;
             }
-            j++;
-
-        } 
+            subArrayCnt += cnt;
+        }
+ 
         return subArrayCnt;
     }
 }
