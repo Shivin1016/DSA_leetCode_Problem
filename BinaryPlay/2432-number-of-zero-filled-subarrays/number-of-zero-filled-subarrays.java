@@ -14,18 +14,7 @@ class Solution {
             }
             j++;
 
-        }
-
-        // while(j < n){
-        //     while(j < n && nums[j] != 0){
-        //         j++;
-        //         i = j;
-        //     }
-        //     if(j < n){
-        //         subArrayCnt += (j - i + 1);
-        //         j++;
-        //     }
-        // }
+        } 
         return subArrayCnt;
     }
 }
