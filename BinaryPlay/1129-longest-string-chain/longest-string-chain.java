@@ -1,6 +1,4 @@
-class Solution {
-    int n ;
-    int[][] dp;
+class Solution { 
     public boolean checkPredcessor(String s1 , String s2){
         int n1 = s1.length(); //curr
         int n2 = s2.length(); // prev
@@ -17,32 +15,21 @@ class Solution {
     }
     public int longestStrChain(String[] words) {
 
-        n = words.length;
+        int n = words.length;
         Arrays.sort(words , (a, b) -> a.length() - b.length());
 
-        dp = new int[n+ 1][n + 1];
-        for(int i = 0 ; i <= n ;i++){
-            Arrays.fill(dp[i] , -1);
+        int[] t = new int[n]; 
+        Arrays.fill(t , 1);
+
+        int maxi = 1;
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < i ; j++){
+                if(checkPredcessor(words[i] , words[j])){
+                    t[i] = Math.max(t[i] , t[j] + 1);
+                    maxi = Math.max(maxi , t[i]);
+                }
+            }
         }
-
-        return solve(words , 0 , -1);
-    }
-
-    public int solve(String[] words , int i , int prev){
-        if(i >= n) return 0;
- 
-        if(prev != -1 && dp[i][prev] != -1) return dp[i][prev];
-
-        int take = 0;
-        if(prev == -1 || checkPredcessor(words[i] , words[prev])){
-            take = 1 + solve(words , i + 1 , i);
-        }
-
-        int skip = solve(words , i + 1 , prev);
-
-        if(prev != -1){
-            dp[i][prev] = Math.max(take , skip);
-        }
-        return Math.max(take , skip);
-    }
+        return maxi;
+    } 
 }
