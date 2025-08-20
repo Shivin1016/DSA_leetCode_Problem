@@ -5,9 +5,9 @@ class Solution {
         int maxi = 1; // each letter is itself an subsequence
 
         //stores length of the longest subseq endng at idx = i
-        int[] chars = new int[26];
-
-        for(char ch : s.toCharArray()){
+        int[] chars = new int[26];//space constant ->O(1)
+        
+        for(char ch : s.toCharArray()){ // t.c ->O(n)
 
             int idx = ch - 'a';
 
@@ -18,10 +18,11 @@ class Solution {
 
             //now find max-value in range of left to right in chars array
             //then longest ideal subs -> max + 1
-            while(left <= right){
+            while(left <= right){ //maximum loop goes to 25 --> so constant 
                 longest = Math.max(chars[left] , longest);
                 left++;
             }
+
             //we add 1 because now new ch is also added in prevous longest subseq
             chars[idx] = longest + 1;
             maxi = Math.max(maxi , chars[idx]);
