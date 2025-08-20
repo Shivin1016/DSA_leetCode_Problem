@@ -9,14 +9,14 @@ class Solution {
 
         for(int i = 0 ; i < m ; i++){
             for(int j = 0 ; j < n ; j++){
-                if(matrix[i][j] == 1){
-                    int up = (i - 1 < 0) ? 0 : t[i - 1][j];
-                    int left = (j - 1 < 0) ? 0 : t[i][j - 1];
-                    int diagonally_up = (i - 1 < 0 || j - 1 < 0) ? 0 : t[i - 1][j - 1];
-
-                    t[i][j] = 1 + Math.min(up , Math.min(left , diagonally_up));
-                    res += t[i][j];
+                if(i == 0 || j == 0){
+                    //agr cell me 0 hai to 0 square matrix agr ek hai to 1 sqaure ban hi jayega
+                    t[i][j] = matrix[i][j];
                 }
+                else if(matrix[i][j] == 1){  
+                    t[i][j] = 1 + Math.min(t[i - 1][j] , Math.min(t[i][j - 1] , t[i - 1][j - 1]));
+                }
+                res += t[i][j];
             }
         }
         return res;
