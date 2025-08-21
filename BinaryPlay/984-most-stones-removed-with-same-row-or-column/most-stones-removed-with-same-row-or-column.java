@@ -19,6 +19,7 @@ class Solution {
 
         int n = stones.length; // number of stones
 
+        //using DFS
         int group = 0;
         boolean[] visited = new boolean[n];
 
