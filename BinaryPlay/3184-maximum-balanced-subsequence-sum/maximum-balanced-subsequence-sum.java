@@ -13,20 +13,20 @@ class Solution {
             }else{
                 int currKey = nums[i] - i;
                 //find key that is just less than or equal to ho is currkey se
-                long temp = nums[i];
+                long sum = nums[i];
 
                 if(mp.floorKey(currKey) != null){
-                    temp += mp.get(mp.floorKey(currKey));
+                    sum += mp.get(mp.floorKey(currKey));
                 }
 
                 //remove those keys which is greater than currKey and it's value is less then currKey value
-                while(mp.ceilingKey(currKey) != null && mp.get(mp.ceilingKey(currKey)) < temp){
+                while(mp.ceilingKey(currKey) != null && mp.get(mp.ceilingKey(currKey)) < sum){
                     mp.remove(mp.ceilingKey(currKey));
                 }
 
-                mp.put(currKey , temp);
+                mp.put(currKey , sum);
 
-                ans = Math.max(ans , temp);
+                ans = Math.max(ans , sum);
 
             }
         }
