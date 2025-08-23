@@ -40,16 +40,16 @@ class Solution {
         }
 
         //for case 1 , case 2 and case3
-        int result = solve1(grid); 
+        int result = helper(grid); 
 
         //case 1 , case 2 and case3 for rotategrid 
-        result = Math.min(result , solve1(rotateGrid));
+        result = Math.min(result , helper(rotateGrid));
  
 
         return result;
     }
 
-    public int solve1(int[][] grid){
+    public int helper(int[][] grid){
         int m = grid.length;
         int n = grid[0].length;
         int res = Integer.MAX_VALUE;
