@@ -6,31 +6,49 @@ class Solution {
         int k = 0;
         int[] ans = new int[m * n];
 
-        Map<Integer , List<Integer>> mp = new HashMap<>();
+        if(m == 0) return mat[0]; // single row
 
-        for(int i = 0 ; i < m ; i++){
-            for(int j = 0 ; j < n ; j++){
-                int key = (i + j);
-                if(!mp.containsKey(key)){
-                    mp.put(key , new ArrayList<>());
+        if(n == 0){
+            //single col
+            for(int i = 0 ; i < m ; i++){
+                ans[k++] = mat[i][0];
+            }
+            return 
+            ans;
+        } 
+        int total = m*n;
+  
+        int i = 0 ,j = 0 ;
+ 
+        boolean down = false; //for down directions
+        while(k < total){ 
+            ans[k++] = mat[i][j];  
+            if(down == true){  
+                if(i == m - 1){ // reach last row
+                    j++;
+                    down = false;
+                }else if(j == 0){
+                    i++;
+                    down = false;
+                }else{
+                    i++;
+                    j--;
                 }
-                mp.get(key).add(mat[i][j]);
             }
-        }
-
-        //store list at crrosposnding key 
-        for(int key : mp.keySet()){
-            List<Integer> ls = mp.get(key); 
-            if(key % 2 == 0){
-                Collections.reverse(ls);
-            }
-            for(int val : ls){
-                ans[k++] = val;
-            }
-        }
+            else{
+                if(j == n - 1){
+                    i++;
+                    down = true;
+                }else if(i == 0){
+                    j++;
+                    down = true;
+                }else{
+                    i--;
+                    j++;
+                }
+            } 
+        } 
         return ans;
-
-       
 
     }
 }
