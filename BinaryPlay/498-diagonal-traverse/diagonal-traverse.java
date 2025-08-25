@@ -11,9 +11,10 @@ class Solution {
         for(int i = 0 ; i < m ; i++){
             for(int j = 0 ; j < n ; j++){
                 int key = (i + j);
-                List<Integer> ls = mp.getOrDefault(key , new ArrayList<>());
-                ls.add(mat[i][j]);
-                mp.put(key , ls);
+                if(!mp.containsKey(key)){
+                    mp.put(key , new ArrayList<>());
+                }
+                mp.get(key).add(mat[i][j]);
             }
         }
 
