@@ -19,9 +19,19 @@ class Solution {
         }
 
         int i = m , j = n; 
-        while(i > 0 && j > 0){
+        while(i > 0 || j > 0){
 
-            if(str1.charAt(i - 1) == str2.charAt(j - 1)){
+            if(i == 0 && j > 0){
+                ans = str2.charAt(j - 1) + ans;
+                j--;
+            }
+
+            else if(i > 0 && j == 0){
+                ans = str1.charAt(i - 1) + ans;
+                i--;
+            }
+
+            else if(str1.charAt(i - 1) == str2.charAt(j - 1)){
                 ans = str1.charAt(i - 1) + ans;
                 i--;
                 j--;
@@ -35,15 +45,7 @@ class Solution {
                 }
             }
         }
-
-        while(j > 0){
-            ans = str2.charAt(j - 1) + ans;
-            j--;
-        }
-        while(i > 0){
-            ans = str1.charAt(i - 1) + ans;
-            i--;
-        }
+ 
 
         return ans;
     }
