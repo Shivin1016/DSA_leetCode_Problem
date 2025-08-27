@@ -10,32 +10,31 @@ class Solution {
             adj.get(edge[1]).add(edge[0]);
         }
         int[] ans = new int[n]; 
-        int[] myCnt = new int[26]; // my cnt of 0th node
+        int[] label_cnts = new int[26]; // my cnt of 0th node
 
-        dfs(adj , 0 , -1 , labels , ans );
+        dfs(adj , 0 , -1 , labels  , ans , label_cnts);
         return ans;
     }
 
-    public int[] dfs(List<List<Integer>> adj , int curr , int parent , String labels , int[] ans){ 
-        int[] myCnt = new int[26];
+    public void dfs(List<List<Integer>> adj , int curr , int parent , String labels , int[] ans , int[] label_cnts){ 
+        
         char label = labels.charAt(curr);
-        myCnt[label - 'a'] = 1;
+
+        //stores value count of the label before coming to curr node
+        int before = label_cnts[label - 'a'];
+        label_cnts[label - 'a'] += 1;
 
         for(int child : adj.get(curr)){
             if(child == parent){
                 continue;
             }
 
-            int[] childCnt = dfs(adj , child , curr , labels , ans);
-
-            //update myCnt from childCnt
-            for(int i = 0 ; i < 26 ; i++){
-                myCnt[i] += childCnt[i];
-            }
+            dfs(adj , child , curr , labels , ans , label_cnts); 
 
         }
-        //update result using myCnt
-        ans[curr] = myCnt[label - 'a']; 
-        return myCnt;
+        //after visiting the curr , my label count
+        int after = label_cnts[label - 'a'];
+        //update result
+        ans[curr] = after - before; 
     }
 }
