@@ -1,25 +1,17 @@
 class Solution {
     int M ,N ;
-    int[][] t;
-    int[][] direction = {{0 , 1}, {1 , 0}};
+    int[][] t; 
     public int dfs(int i , int j){
 
         if(i == M - 1 && j == N - 1){
             return 1;
         }
 
+        if(i >= M || j >= N) return 0;
+
         if(t[i][j] != -1) return t[i][j];
-
-        int path = 0;
-        for(int[] dir : direction){
-            int i_ = i + dir[0];
-            int j_ = j + dir[1];
-
-            if(i_ < M && j_ < N){
-                path += dfs(i_ , j_);
-            }
-        }
-        return t[i][j] = path;
+ 
+        return t[i][j] = dfs(i + 1 , j) + dfs(i , j + 1);
     }
     public int uniquePaths(int m, int n) {
         M = m;
