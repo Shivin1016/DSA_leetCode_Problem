@@ -1,35 +1,29 @@
 class Solution {
-    int m , n;
-    int[][] t;
-    public int solve(int i , int j , int[][] grid){
-         
-
-        if(i == m - 1 && j == n - 1){
-            return grid[i][j]; //last cell
-        }
-
-        if(t[i][j] != -1) return t[i][j]; 
-
-        if(i == m - 1){ // last row ->only go right
-            //we can't go down
-            return t[i][j] = grid[i][j] + solve(i , j + 1 , grid);
-        }
-        else if(j == n - 1){ // last col --> only go down
-            return t[i][j] = grid[i][j] + solve(i + 1 , j , grid);
-        }
-        else{
-            return  t[i][j] = grid[i][j] + Math.min(solve(i + 1 , j , grid) , solve(i , j + 1 , grid)); 
-        } 
-  
- 
-    }
+    int m , n;  
     public int minPathSum(int[][] grid) {
         m = grid.length;
         n = grid[0].length;  
 
-        t = new int[201][201];
-        for(int[] r : t) Arrays.fill(r , -1);
+        int[][] t = new int[m][n];
+        //t[i][j] == mini path sum to reach (i)[j] from (0 , 0)
+        t[0][0] = grid[0][0];
 
-        return solve(0 , 0 , grid);
+        //fill first column
+        for(int i = 1 ; i < m ; i++){
+            t[i][0] = grid[i][0] + t[i - 1][0];
+        }
+        //fill first row
+        for(int j = 1 ; j < n ; j++){
+            t[0][j] = grid[0][j] + t[0][j - 1];
+        }
+
+        for(int i = 1 ; i < m ; i++){
+            for(int j = 1 ; j < n ; j++){ 
+                t[i][j] = grid[i][j] + Math.min(t[i - 1][j] , t[i][j - 1]); 
+            }
+        }
+
+        return t[m - 1][n - 1];
+
     }
 }
