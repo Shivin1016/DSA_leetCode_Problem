@@ -4,15 +4,18 @@ class Solution {
 
         int[][] t = new int[1001][1001]; 
 
-        int maxLen = Integer.MIN_VALUE;
+        int maxLen = 1;
         int sp = 0; // starting point
+        for(int i = 0 ;i < n; i++){
+            t[i][i] = 1;
+        }
 
-        for(int L = 1 ; L <= n ; L++){
+        for(int L = 2 ; L <= n ; L++){
             for(int i = 0 ; i + L - 1 < n ; i++){
+
                 int j = i + L - 1;
-                if(i == j){ 
-                    t[i][j] = 1;
-                }else if(i + 1 == j){
+
+                if(i + 1 == j){ //for length = 2
                     t[i][j] = (s.charAt(i) == s.charAt(j)) ? 1 : 0;
                 }else{
                     t[i][j] = (s.charAt(i) == s.charAt(j) && t[i + 1][j - 1] == 1) ? 1 : 0;
