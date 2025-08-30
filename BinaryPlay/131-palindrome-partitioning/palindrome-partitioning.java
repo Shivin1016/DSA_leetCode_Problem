@@ -1,30 +1,7 @@
-class Solution {
-    int[][] t;
+class Solution { 
     int n;
     public List<List<String>> partition(String s) {
-        n = s.length();
-
-        t = new int[n][n];
-        //t[i][j] -> 1(true) => s[i..j] palindrom , 0(false) s[i..j] not palindrom
-
-        //for length 1 it is always palindrom
-        for(int i = 0; i < n ; i++){
-            t[i][i] = 1;
-        }
-
-        //t.c : O(n ^2)
-        for(int L = 2 ; L <= n  ; L++){
-            for(int i = 0 ; i + L - 1 < n ; i++){
-                int j = i + L - 1;
-                if(s.charAt(i) == s.charAt(j)){
-                    if(i + 1 == j){
-                        t[i][j] = 1;
-                    }else{
-                        t[i][j] = (t[i + 1][j - 1] == 1) ? 1 : 0;
-                    }
-                } 
-            }
-        }
+        n = s.length(); 
 
         List<List<String>> ans = new ArrayList<>(); 
         List<String> temp = new ArrayList<>();
@@ -44,15 +21,25 @@ class Solution {
         }
 
         //further explore
-        //two option to check every index -> partition or no partition --> O(2 ^ n)
+        //two option to check every index -> partition or no partition --> O(n * (2 ^ n))
         for(int j = i ; j < n ; j++){
-            if(t[i][j] == 1){
+            if(isPalindrom(s.toCharArray() , i , j)){
                 // s[i to j] is plaindrom
                 part.add(s.substring(i , j + 1));
                 solve(s , j + 1 , ans , part);
                 part.remove(part.size() - 1);
             }
         }
+    }
+    public boolean isPalindrom(char[] s , int i , int j){
+        while(i < j){
+            if(s[i] != s[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
     }
 
 }
