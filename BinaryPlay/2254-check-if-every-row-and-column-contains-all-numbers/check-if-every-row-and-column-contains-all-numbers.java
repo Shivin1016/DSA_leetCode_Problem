@@ -1,8 +1,7 @@
 class Solution {
     public boolean checkValid(int[][] matrix) {
 
-        int n = matrix.length;
-        int sum = n * (n + 1) / 2;
+        int n = matrix.length; 
 
         for(int i = 0 ; i < n ; i++){
             Set<Integer> num1 = new HashSet<>();
