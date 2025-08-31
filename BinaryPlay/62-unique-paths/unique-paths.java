@@ -1,29 +1,24 @@
 class Solution {
-    int M ,N ;
-    int[][] t; 
-    public int dfs(int i , int j){
+    int[][] t;
+    public int solve(int i , int j , int m , int n){
+        if(i >= m || j >= n){
+            return 0;
+        }
 
-        if(i == M - 1 && j == N - 1){
+        if(t[i][j] != -1) return t[i][j];
+
+        if(i == m - 1&& j == n - 1){
             return 1;
         }
 
-        if(i >= M || j >= N) return 0;
+        return t[i][j] = solve(i , j + 1 , m , n) + solve(i + 1 , j , m , n);
 
-        if(t[i][j] != -1) return t[i][j];
- 
-        return t[i][j] = dfs(i + 1 , j) + dfs(i , j + 1);
     }
     public int uniquePaths(int m, int n) {
-        M = m;
-        N = n; 
 
-        t = new int[101][101];
-        for(int[] r : t){
-            Arrays.fill(r , -1);
-        }
+        t = new int[m + 1][n + 1];
+        for(int[] r : t) Arrays.fill(r , -1);
 
-        return dfs(0 , 0); 
+        return solve(0 , 0 , m , n);
     }
-
-    
 }
