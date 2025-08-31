@@ -1,24 +1,21 @@
 class Solution {
-    int[][] t;
-    public int solve(int i , int j , int m , int n){
-        if(i >= m || j >= n){
-            return 0;
-        }
-
-        if(t[i][j] != -1) return t[i][j];
-
-        if(i == m - 1&& j == n - 1){
-            return 1;
-        }
-
-        return t[i][j] = solve(i , j + 1 , m , n) + solve(i + 1 , j , m , n);
-
-    }
     public int uniquePaths(int m, int n) {
 
-        t = new int[m + 1][n + 1];
-        for(int[] r : t) Arrays.fill(r , -1);
+        //botttom approach
+        int[][] t = new int[m + 1][n + 1];
+        // t[i][j] --> totla number of ways to reach (i , j) from (0 , 0)
 
-        return solve(0 , 0 , m , n);
+        for(int i = 0 ; i < m ; i++){
+            for(int j = 0 ; j < n ; j++){
+                if(i == 0 || j == 0){
+                    t[i][j] = 1;
+                }
+                else{
+                    t[i][j] = t[i - 1][j] + t[i][j - 1];
+                }
+            }
+        }
+
+        return t[m - 1][n - 1];
     }
 }
