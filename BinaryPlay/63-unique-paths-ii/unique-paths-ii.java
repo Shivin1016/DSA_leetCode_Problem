@@ -3,10 +3,6 @@ class Solution {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
 
-        // obstacle at (0 , 0) then we can't reach destination
-        if (obstacleGrid[0][0] == 1)
-            return 0;
-
         int[][] t = new int[m + 1][n + 1];
 
         for (int i = 0; i < m; i++) {
