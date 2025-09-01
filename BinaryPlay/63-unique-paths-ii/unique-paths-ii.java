@@ -1,28 +1,42 @@
 class Solution {
-    int m , n ;
-    int[][] t ;
-
-    public int solve(int i , int j , int[][] grid){
-        if(i >= m || j >= n || grid[i][j] == 1){
-            return 0;
-        }
-
-        if(t[i][j] != -1) return t[i][j];
-
-        if(i == m - 1 && j == n - 1){
-            return t[i][j] = 1;
-        }
-
-        return t[i][j] = solve(i , j + 1 , grid) + solve(i + 1 , j , grid); 
-
-    }
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        m = obstacleGrid.length;
-        n = obstacleGrid[0].length;
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
 
-        t = new int[m + 1][n + 1];
-        for(int[] r : t) Arrays.fill(r , -1);
+        // obstacle at (0 , 0) then we can't reach destination
+        if (obstacleGrid[0][0] == 1)
+            return 0;
 
-        return solve(0 , 0 , obstacleGrid);
+        int[][] t = new int[m + 1][n + 1];
+
+        for (int i = 0; i < m; i++) {
+            //row filling -> if we got an obstacles on moving down then break
+            if (obstacleGrid[i][0] == 1) {
+                break;
+            }
+
+            t[i][0] = 1;
+        }
+
+        for (int j = 0; j < n; j++) {
+            //row filling -> if we got an obstacles on moving down then break
+            if (obstacleGrid[0][j] == 1)
+                break;
+
+            t[0][j] = 1;
+        }
+
+        for (int i = 1 ; i < m ; i++) {
+            for (int j = 1 ; j < n ; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    //we can't reach this cell by from any direction
+                    continue;
+                }
+
+                t[i][j] = t[i - 1][j] + t[i][j - 1];
+            }
+        }
+
+        return t[m - 1][n - 1];
     }
 }
