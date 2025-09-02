@@ -1,44 +1,36 @@
 class Solution {
     int m ,n ;
-    Map<String , Boolean> mp = new HashMap<>();
-    public boolean solve(int i , int j , int[][] grid , int health){
+    int[][] t = new int[201][201];
+    public int solve(int i , int j , int[][] grid){
 
         if(i >= m || j >= n){  
-            return false;
+            return Integer.MAX_VALUE;
+        }   
+
+        if(t[i][j] != -1) return t[i][j];
+
+        if(i == m - 1 && j == n - 1){
+            //base case
+            if(grid[i][j] <= 0){
+                return t[i][j] = Math.abs(grid[i][j]) + 1;
+            }
+            return 1; // already have positive power so minimum 1 required
         } 
+ 
 
-        health += grid[i][j];
-
-        if(health <= 0) return false;
-
-        if(i == m - 1 && j == n - 1) return true; 
-
-        String key = i + "_" + j + "_" + health;
-
-        if(mp.containsKey(key)) return mp.get(key);
-
-        boolean ans = solve(i , j + 1 , grid , health) || solve(i + 1 , j , grid , health);
-        mp.put(key , ans);
-        return  ans;
+        int requireMnt = Math.min(solve(i , j + 1 , grid) , solve(i + 1 , j , grid)) - grid[i][j];
+        //if ans less then 0 mtln reuiremnt se jada hi hai to one bhej do
+        int ans = requireMnt <= 0 ? 1 : requireMnt;
+       
+        return t[i][j] = ans;
     }
     public int calculateMinimumHP(int[][] dungeon) {
         m = dungeon.length;
-        n = dungeon[0].length; 
+        n = dungeon[0].length;  
 
-        int minHealth = 10000007 * 4;
-        int l = 1;
-        int r = 10000007 * 4; // 200 * 200 * 1000
-        while(l <= r){
-            int mid = l + (r - l) / 2; 
-            if(solve(0 , 0 , dungeon , mid)){
-               minHealth = mid;
-               r = mid - 1;
-            }else{
-                l = mid + 1;
-            } 
-        }
+        for(int[] r : t) Arrays.fill(r , -1);
 
-        return minHealth;
+        return solve(0 ,0 , dungeon);
     }
 
 
