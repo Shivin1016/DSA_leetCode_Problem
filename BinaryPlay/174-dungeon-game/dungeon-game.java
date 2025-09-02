@@ -29,7 +29,7 @@ class Solution {
         int l = 1;
         int r = 10000007 * 4; // 200 * 200 * 1000
         while(l <= r){
-            int mid = l + (r - l) / 2;
+            int mid = l + (r - l) / 2; 
             if(solve(0 , 0 , dungeon , mid)){
                minHealth = mid;
                r = mid - 1;
