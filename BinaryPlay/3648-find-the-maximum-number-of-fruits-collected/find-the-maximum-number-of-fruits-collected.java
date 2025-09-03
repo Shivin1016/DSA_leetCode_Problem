@@ -1,94 +1,71 @@
-class Solution {
-
-    int n ;
-    int[][] memo; 
-
-    public int maxCollectedFruits(int[][] fruits) {
-        
-        n = fruits.length; 
-
-        //for child1 -> it only can move on diagonal elements becuase if it go on other cells then in (n - 1) moves it can't reach to the (n - 1 , n - 1) cell
-        //hence child1 can only move on diagonal cell
-        int c1 = child1Collection(fruits); 
-
-        //memoization
-        memo = new int[n + 1][n + 1];
-        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo[i] , -1);
-
-        //it can only moves within (i < j) points --> means can't go other side of diagonal
-
-        int c2 = child2Collection(0 , n - 1 , fruits);
-
-        memo = new int[n + 1][n + 1];
-        for(int i = 0 ; i <= n ; i++) Arrays.fill(memo[i] , -1);
-        //it can only moves within (i > j) points --> means can't go other side of diagonal 
-        int c3 = child3Collection(n - 1 , 0 , fruits);
-
-        return c1 + c2 + c3;
-    }
-
-    public int child1Collection(int[][] fruits){
-        int total = 0;
-        for(int i = 0 ; i < n ; i++){
-            //collect only diagonal elements
-            total += fruits[i][i];
+class Solution { 
+    int[][] t1 ;
+    int[][] t2;
+    public int solve1(int i , int j , int[][] fruits , int n ){
+        if(i >= n || j >= n || j < 0  ){ 
+            return 0;
         }
-        return total;
-    }
 
-    public int child2Collection(int i , int j , int[][] fruits){
-
-        //base case
-        if(i >= n || j < 0 || j >= n) return 0;
+        if(t1[i][j] != -1) return t1[i][j];
 
         if(i == n - 1 && j == n - 1){
-            return 0 ; //becasue this fruit already taken by c1
+            return t1[i][j] = 0;// fruits already taken by child1
+        }
+
+        // if it goes opposite ke diagonal me y aon diagonal then return
+        if(i > j || i == j){
+            return t1[i][j] =  0;
         } 
 
-        //constraint for c2
-        if(i > j || i == j){ // agr apne diagonal se dusre diagonal side chala ya phir diagonal element par pahuch jaye 
-            return 0;
-        }
+        int bottom_left = fruits[i][j] +  solve1(i + 1 , j - 1 , fruits , n );
+        int bottom_down = fruits[i][j] + solve1(i + 1 , j , fruits , n );
+        int bottom_right = fruits[i][j] + solve1(i + 1 , j + 1 , fruits , n);
 
-        if(memo[i][j] != -1) return memo[i][j];
-
-        //(i , j) ->(i + 1 , j - 1) bottom left
-        int bottom_left = fruits[i][j] + child2Collection(i + 1 , j - 1 , fruits);
-
-        //(i , j) ->(i + 1 , j) bottom down
-        int bottom_down = fruits[i][j] + child2Collection(i + 1 , j , fruits);
-
-        //(i , j) ->(i + 1 , j + 1) bottom right
-        int bottom_right = fruits[i][j] + child2Collection(i + 1 , j + 1 , fruits);
-
-        return memo[i][j] = Math.max(bottom_left , Math.max(bottom_down , bottom_right));
+        return t1[i][j] = Math.max(bottom_left , Math.max(bottom_down , bottom_right));
     }
+    public int solve2(int i , int j , int[][] fruits , int n ){
 
-    public int child3Collection(int i , int j , int[][] fruits){
-
-        // base case
-        if(i < 0 || i >= n || j >= n){
+        if(i >= n || j >= n || i < 0 ){
+        // System.out.println("Me=> " + moves);
             return 0;
         }
+        if(t2[i][j] != -1) return t2[i][j];
 
         if(i == n - 1 && j == n - 1){
-            return 0 ; // already taken by c1
+            return t2[i][j] = 0; // fruits already taken by child1
+        } 
+
+        if(i < j || i == j) return t2[i][j] = 0 ; // on diagonal or opposite diagonal 
+
+        int top_right = fruits[i][j] +  solve2(i - 1 , j + 1 , fruits  , n    );
+        int right = fruits[i][j] + solve2(i , j + 1 , fruits , n   );
+        int bottom_right = fruits[i][j] + solve2(i + 1 , j + 1 , fruits , n    );
+
+        return t2[i][j] = Math.max(top_right , Math.max(right , bottom_right));
+    }
+
+    public int maxCollectedFruits(int[][] fruits) {
+        int N = fruits.length; 
+        //for child1 -->it can only go diagonal on elements otherwise it can't react to n - 1 , n- 1 cell because of moves will go greater than n - 1
+
+        int child1_collection1 = 0;
+        for(int i = 0 ; i < N ; i++){
+            child1_collection1 += fruits[i][i]; //aceess diagonals
+            fruits[i][i] = 0 ;// nullify it , because it taken by child1
         }
 
-        //constaint for c3 --> apne diagona; side ke opposite side chala jaye agr 
-        if(i < j || i == j) return 0;
+        t1 = new int[N + 1][N + 1];
+        for(int[]r : t1) Arrays.fill(r , -1);
 
-        if(memo[i][j] != -1) return memo[i][j];
+        t2 = new int[N + 1][N + 1];
+        for(int[]r : t2) Arrays.fill(r , -1);
 
-        //top right (i , j) --> (i - 1 , j  + 1)
-        int top_right = fruits[i][j] + child3Collection(i - 1 , j + 1 , fruits);
+        int child1_collection2 = solve1(0 , N - 1 , fruits ,N ); //moves = 0 in starting
 
-        // top up (i , j) --> (i , j + 1)
-        int top_up = fruits[i][j] + child3Collection(i , j + 1 , fruits);
+        int child1_collection3 = solve2(N - 1 , 0 , fruits,N); 
 
-        // bottom right (i , j) --> (i + 1 , j + 1)
-        int bottom_right = fruits[i][j] + child3Collection(i + 1 , j + 1 , fruits);
+        System.out.println(child1_collection2 + " " + child1_collection3);
 
-        return memo[i][j] = Math.max(top_right , Math.max(top_up , bottom_right));
+        return child1_collection1 + child1_collection2 + child1_collection3;
     }
 }
