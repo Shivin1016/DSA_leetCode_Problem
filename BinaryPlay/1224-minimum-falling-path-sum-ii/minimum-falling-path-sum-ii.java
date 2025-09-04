@@ -7,6 +7,7 @@ class Solution {
         int n = grid.length;
 
         int[][] t = new int[n][n];
+        //t[i][j] --> minimum falling path sum from (row = i , col = j) to row = n - 1
 
         for(int col = 0 ; col < n ; col++){
             t[0][col] = grid[0][col];
@@ -16,9 +17,9 @@ class Solution {
             for(int j = 0 ; j < n ; j++){
                 int sum = Integer.MAX_VALUE;
                 for(int shift = 0 ; shift < n ; shift++){
-                    if(j == shift) continue;
-
-                    sum = Math.min(sum , t[i - 1][shift]);
+                    if(j != shift){
+                        sum = Math.min(sum , t[i - 1][shift]);
+                    }
                 }
                 t[i][j] = grid[i][j] + sum;
             }
