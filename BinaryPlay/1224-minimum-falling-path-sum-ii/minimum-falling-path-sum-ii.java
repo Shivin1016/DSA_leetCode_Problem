@@ -41,13 +41,8 @@ class Solution {
             }
             nextMinCol1 = minCol1;
             nextMinCol2 = minCol2;
-        }
+        } 
 
-        for(int col = 0 ; col < n ; col++){
-            min_falling_path_sum = Math.min(min_falling_path_sum , t[n - 1][col]);
-        }
- 
-
-        return min_falling_path_sum;
+        return t[n - 1][nextMinCol1];
     }
 } 
