@@ -9,35 +9,44 @@ class Solution {
         int[][] t = new int[n][n];
         //t[i][j] --> minimum falling path sum from (row = i , col = j) to row = n - 1
 
+        int nextMinCol1 = -1; // first min value in row - 1 
+        int nextMinCol2 = -1; // second min value in row - 1
         for(int col = 0 ; col < n ; col++){
             t[0][col] = grid[0][col];
+            if(nextMinCol1 == -1 || t[0][col] <= t[0][nextMinCol1]){
+                nextMinCol2 = nextMinCol1;
+                nextMinCol1 = col;
+            }else if(nextMinCol2 == -1 || t[0][col] <= t[0][nextMinCol2]){
+                nextMinCol2 = col;
+            }
         }
 
         for(int i = 1 ; i < n ; i++){
+            int minCol1 = -1 , minCol2 = -1;
             for(int j = 0 ; j < n ; j++){
-                int sum = Integer.MAX_VALUE;
-                for(int shift = 0 ; shift < n ; shift++){
-                    if(j != shift){
-                        sum = Math.min(sum , t[i - 1][shift]);
-                    }
+                if(nextMinCol1 == j){
+                    t[i][j] = t[i - 1][nextMinCol2];
+                }else{
+                    t[i][j] = t[i - 1][nextMinCol1];
                 }
-                t[i][j] = grid[i][j] + sum;
+                t[i][j] += grid[i][j];
+
+                //update mincol1 and mincol2 for current row
+                if(minCol1 == -1 || t[i][j] <= t[i][minCol1]){
+                    minCol2 = minCol1;
+                    minCol1 = j;
+                }else if(minCol2 == -1 || t[i][j] <= t[i][minCol2]){
+                    minCol2 = j;
+                }
             }
+            nextMinCol1 = minCol1;
+            nextMinCol2 = minCol2;
         }
 
         for(int col = 0 ; col < n ; col++){
             min_falling_path_sum = Math.min(min_falling_path_sum , t[n - 1][col]);
         }
-
-        //Approach --> recursion and memo
-        // n = grid.length;
-
-        // t = new int[n + 1][n + 1];
-        // for(int[] r : t) Arrays.fill(r , Integer.MAX_VALUE);
-
-        // for(int col = 0 ; col < n ; col++){
-        //     min_falling_path_sum = Math.min(min_falling_path_sum , solve(0 , col , grid , col));
-        // }
+ 
 
         return min_falling_path_sum;
     }
