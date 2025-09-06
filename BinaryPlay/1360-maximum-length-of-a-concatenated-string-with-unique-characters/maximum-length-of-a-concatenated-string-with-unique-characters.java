@@ -27,9 +27,9 @@ class Solution {
         }else{
             //not duplicate then include
             include = solve(i + 1 , arr , temp + arr.get(i));
-            //exclude part
-            exclude = solve(i + 1 , arr , temp); 
         }
+        //exclude part 
+        exclude = solve(i + 1 , arr , temp); 
         key = i + "_" + temp;
         mp.put(key , Math.max(include , exclude));
         return Math.max(include , exclude);
