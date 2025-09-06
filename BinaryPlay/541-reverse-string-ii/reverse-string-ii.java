@@ -8,10 +8,7 @@ class Solution {
         for(int i = 0 ; i < n ; i += 2*k){
             if(n - i < k){
                 reverse(i , n - 1 , word);
-            }else if(n - i >= k && n - i < 2 * k){
-                //reverse only k characters
-                reverse(i , i + k - 1 , word);
-            }else{
+            } else{
                 //n - i > 2 *k
                 reverse(i , i + k - 1 , word);
             }
