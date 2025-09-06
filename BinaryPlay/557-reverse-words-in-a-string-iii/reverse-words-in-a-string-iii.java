@@ -1,32 +1,28 @@
 class Solution {
     public String reverseWords(String s) {
-
         int n = s.length();
+        char[] word = s.toCharArray();
 
-        StringBuilder sb = new StringBuilder(s);
-        sb.reverse();
-
-        String ans = "";
-        int lastSeenSpace = -1;
-        int i = n - 1;
-        while(i >= 0){
-            if(sb.charAt(i) == ' '){
-                //found spcae -> found one sentance
-                int currentSeenSpace = i;
-                String subStr = "";
-                if(lastSeenSpace == -1){
-                    subStr = sb.substring(currentSeenSpace + 1 , n);
-                }else{
-                    subStr = sb.substring(currentSeenSpace + 1 , lastSeenSpace);
-                }
-                lastSeenSpace = currentSeenSpace;
-                ans = ans + subStr + " "; // add space
-            } 
-            i--;
+        int firstIndex = 0;
+        for(int i = 0 ; i < n ; i++){
+            if(word[i] == ' '){
+                reverse(firstIndex , i - 1 , word);
+                firstIndex = i + 1;
+            }
         }
-        //for last word
-        ans += sb.substring(0 , lastSeenSpace == -1 ? n : lastSeenSpace);
+        //for last sentance
+        reverse(firstIndex , n - 1 , word);
+        return new String(word);
+    }
 
-        return ans;
+    public void reverse(int l , int r , char[] word){
+        while(l < r){
+            char temp = word[l];
+            word[l] = word[r];
+            word[r] = temp;
+            l++ ;
+            r--;
+        }
+
     }
 }
