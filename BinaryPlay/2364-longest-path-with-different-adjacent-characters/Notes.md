@@ -1,0 +1,1 @@
+<h2>longest-path-with-different-adjacent-characters Notes</h2><hr>[ Time taken: 7 hrs 45 m 43 s ]
