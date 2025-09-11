@@ -5,7 +5,10 @@ class Solution {
         char[] ans = s.toCharArray();
         var pq = new PriorityQueue<Character>((a , b) -> a - b);
 
-        for(int i = 0 ; i < n ; i++){
+        //time complexity -->O(nlogn)
+        //space Complexity -->O(vowelsSize)
+
+        for(int i = 0 ; i < n ; i++){ /// O(n) time
             if(isVowel(ans[i])){
                 pq.add(ans[i]);
             }
@@ -17,8 +20,7 @@ class Solution {
         char lastElement = '/';
         while(!pq.isEmpty() && i < n ){
             if(isVowel(ans[i])){
-                lastElement = pq.poll();
-                System.out.println(lastElement);
+                lastElement = pq.poll(); //logn time to pop the element  
                 ans[i] = lastElement;
             }
             i++;
