@@ -12,6 +12,22 @@ class Solution {
         }
 
     }
+    //using bfs
+    public void bfs(int[] edges , int node , int[] dist , boolean[] visited){
+        var que = new LinkedList<Integer>();
+        que.add(node);
+        visited[node] = true;
+
+        while(!que.isEmpty()){
+            int u = que.pop();
+            int v = edges[u];
+            if(v != -1 && !visited[v]){
+                visited[v] = true;
+                que.add(v);
+                dist[v] = 1 + dist[u];
+            }
+        }
+    }
     public int closestMeetingNode(int[] edges, int node1, int node2) {
         n = edges.length;
 
@@ -26,8 +42,13 @@ class Solution {
         dist1[node1] = 0; //dist from node1 to node1
         dist2[node2] = 0;  //dist from node2 to node2
 
-        dfs(edges , node1 , dist1 , visited1);
-        dfs(edges , node2 , dist2 , visited2);
+        //using DFS
+        // dfs(edges , node1 , dist1 , visited1);
+        // dfs(edges , node2 , dist2 , visited2);
+
+        //using bfs
+        bfs(edges , node1 , dist1 , visited1);
+        bfs(edges , node2 , dist2 , visited2);
 
         int maxDist = Integer.MIN_VALUE;
         int minDist = Integer.MAX_VALUE;
