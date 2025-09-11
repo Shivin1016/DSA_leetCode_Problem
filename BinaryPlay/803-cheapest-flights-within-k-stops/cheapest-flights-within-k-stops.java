@@ -8,39 +8,38 @@ class Solution {
             adj.get(f[0]).add(new int[] { f[1], f[2] });
         }
 
-        var pq = new PriorityQueue<int[]>((a, b) -> a[2] - b[2]);
-        // boolean[] visited = new boolean[n]; 
-        // visited[src] = true;
-        pq.offer(new int[] { src, 0, 0 }); // stores node , price , stops
+        var pq = new LinkedList<int[]>();  
+        pq.offer(new int[] { src , 0 }); // stores node , price ,
 
-        int minPrice = Integer.MAX_VALUE;
-        int[] totalPrice = new int[n];
-        Arrays.fill(totalPrice , Integer.MAX_VALUE);
-        //the dist(price) from src to src is 0
-        totalPrice[src] = 0;
+        int[] minPrice = new int[n];
+        Arrays.fill(minPrice , Integer.MAX_VALUE);  
+        minPrice[src] = 0;
+        int steps = 0;
 
+        while (!pq.isEmpty() && steps <= k) { 
 
-        while (!pq.isEmpty()) {
-            int[] info = pq.poll();
+            int size = pq.size();
 
-            int from = info[0];
-            int price = info[1];
-            int stops = info[2]; 
+            while(size-- > 0){
+                int[] info = pq.pop();
+                int from = info[0];
+                int price = info[1]; 
 
-            if (stops > k )
-                continue; 
-
-            for (int[] collect : adj.get(from)) {
-                int to = collect[0];
-                int newPrice = price + collect[1]; 
-                if(totalPrice[to] > newPrice){
-                    totalPrice[to] = newPrice;
-                    pq.offer(new int[] { to , newPrice , stops + 1 });
+                for(int[] v : adj.get(from)){
+                    int to = v[0];
+                    int newPrice = price + v[1];
+                    if(newPrice < minPrice[to]){
+                        minPrice[to] = newPrice;
+                        pq.offer(new int[]{to , newPrice});
+                    }
                 }
-            }
+            }  
+            steps++;
+
+             
         }
 
-        return totalPrice[dst] == Integer.MAX_VALUE ? -1 : totalPrice[dst];
+        return minPrice[dst] == Integer.MAX_VALUE ? -1 : minPrice[dst];
 
     }
 }
