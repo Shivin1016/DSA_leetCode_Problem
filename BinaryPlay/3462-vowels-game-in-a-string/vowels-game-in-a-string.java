@@ -1,15 +1,10 @@
-class Solution {
-    public boolean isVowel(char ch){
-        if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
-            return true;
-        }
-        return false;
-    }
+class Solution { 
+
     public boolean doesAliceWin(String s) {
-        int n = s.length();
  
-        for(char ch : s.toCharArray()){
-            if(isVowel(ch)){ 
+        //at least one vowel must be present for Alice wins
+        for (char ch : s.toCharArray()) {
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
                 return true;
             }
         }
