@@ -7,13 +7,12 @@ class Solution {
     }
     public boolean doesAliceWin(String s) {
         int n = s.length();
-
-        int vowelCnt = 0;
+ 
         for(char ch : s.toCharArray()){
-            if(isVowel(ch)){
-                vowelCnt++;
+            if(isVowel(ch)){ 
+                return true;
             }
         }
-        return vowelCnt != 0;
+        return false;
     }
 }
