@@ -1,6 +1,19 @@
 class Solution {
+    public void dfs(List<List<int[]>> adj , int node , int minScore , boolean[] visited){
+        visited[node] = true;
+        for(int[] v : adj.get(node)){
+            int u = v[0];
+            int dist = v[1];
+            minScore = Math.min(minScore , dist);
+            if(!visited[u]){
+                dfs(adj , u , minScore , visited);
+            }
+        }
+    }
     public int minScore(int n, int[][] roads) {
+
         List<List<int[]>> adj = new ArrayList<>();
+
         for(int i = 0 ; i <= n; i++){
             adj.add(new ArrayList<>());
         }
@@ -13,29 +26,32 @@ class Solution {
             adj.get(u).add(new int[]{v , dist});
             adj.get(v).add(new int[]{u , dist});
         }
+ 
+        int minScore = Integer.MAX_VALUE;
+        boolean[] visited = new boolean[n + 1];
 
-
+        //using bfs
         var que = new LinkedList<Integer>();
         que.add(1);
-
-        int[] minPath = new int[n + 1];
-        Arrays.fill(minPath , Integer.MAX_VALUE);
-        int minScore = Integer.MAX_VALUE;
-
+        visited[1] = true;
         while(!que.isEmpty()){
-            int u = que.pop(); 
-            minScore = Math.min(minScore , minPath[u]); 
+
+            int u = que.pop();  
+
             for(int[] nodeDist : adj.get(u)){
                 int v = nodeDist[0];
-                int dist = nodeDist[1];
-
-                if(minPath[v] > dist){
-                    minPath[v] = dist;
-
-                    que.add(v);
+                int dist = nodeDist[1];  
+                minScore = Math.min(minScore , dist);
+                if(!visited[v]){
+                    que.add(v); 
+                    visited[v] = true; 
                 }
             }
         }
+        
+
+        //using dfs 
+        // dfs(adj , 1 , minScore , visited); 
 
         return minScore;
     }
