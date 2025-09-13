@@ -9,7 +9,7 @@ class Solution {
 
             if(v == parent) continue;
             //asli edge == 1 --> if we go far from 0 with asli edge 
-            if((u < v || v < u) && edge == 1){
+            if(edge == 1){
                 flipCount++; 
             }
             dfs(adj , v , u );
