@@ -4,20 +4,16 @@ class Solution {
 
         int n = colors.length();
         List<List<Integer>> adj = new ArrayList<>();
+        int[] indegree = new int[n]; 
 
         for(int i = 0 ; i < n ; i++){
             adj.add(new ArrayList<>());
         }
         for(int[] edge : edges){
             adj.get(edge[0]).add(edge[1]);
+            indegree[edge[1]]++;
         }  
 
-        int[] indegree = new int[n];
-        for(int u = 0 ; u < n ; u++){
-            for(int v : adj.get(u)){
-                indegree[v]++;
-            }
-        }
 
         int count = 0;
         Queue<Integer> queue = new LinkedList<>();
