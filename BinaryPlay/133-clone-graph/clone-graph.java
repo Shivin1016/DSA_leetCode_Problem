@@ -24,6 +24,7 @@ class Solution {
             //check that clone node present or not 
             //if not present then make and add it
             if(!map.containsKey(neigh)){
+                // make clone for neighbornode
                 Node clone = new Node(neigh.val);
 
                 //add in map
@@ -40,6 +41,28 @@ class Solution {
             }
         }
     }
+    // using bfs
+    public void bfs(Node node , Node clone_node , Map<Node , Node> map){
+        var queue = new LinkedList<Node>();
+        queue.add(node);
+
+        while(!queue.isEmpty()){
+            Node neigh = queue.pop();
+            Node cloneNode = map.get(neigh);
+
+            for(Node v : neigh.neighbors){
+                if(!map.containsKey(v)){
+                    //add in Queue
+                    Node clone = new Node(v.val);
+                    map.put(v , clone);
+                    cloneNode.neighbors.add(clone);
+                    queue.add(v);
+                }else{
+                    cloneNode.neighbors.add(map.get(v));
+                }
+            }
+        }
+    }
     public Node cloneGraph(Node node) {
         if(node == null) return null;
 
@@ -52,7 +75,10 @@ class Solution {
         map.put(node , clone_node);
 
         //call dfs for further
-        dfs(node , clone_node , map);
+        // dfs(node , clone_node , map);
+
+        //call bfs for further
+        bfs(node , clone_node , map);
 
         return clone_node;
     }
