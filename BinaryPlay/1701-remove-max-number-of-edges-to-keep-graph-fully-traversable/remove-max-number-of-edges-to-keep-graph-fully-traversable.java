@@ -5,10 +5,10 @@ class Solution {
         int component;
 
         public DSU(int n){
-            parent = new int[n];
-            rank = new int[n];
+            parent = new int[n + 1];
+            rank = new int[n + 1];
             component = n;
-            for(int i = 0 ; i < n ; i++) parent[i] = i;
+            for(int i = 0 ; i <= n ; i++) parent[i] = i;
         }
 
         public int find(int x){
@@ -38,8 +38,8 @@ class Solution {
         int totalEdge = edges.length;
         Arrays.sort(edges , (a , b) -> b[0] - a[0]);
 
-        DSU dsu_alice = new DSU(n + 1);
-        DSU dsu_bob = new DSU(n + 1);
+        DSU dsu_alice = new DSU(n);
+        DSU dsu_bob = new DSU(n);
 
         int edgeCnt = 0; 
 
@@ -63,9 +63,8 @@ class Solution {
                 dsu_alice.union(u , v); 
             }
             edgeCnt++;
-        }
-        System.out.println(dsu_alice.component);
-        if(dsu_bob.component == 2 && dsu_alice.component == 2){
+        }   
+        if(dsu_bob.component == 1 && dsu_alice.component == 1){
             return totalEdge - edgeCnt;
         }
         return -1;
