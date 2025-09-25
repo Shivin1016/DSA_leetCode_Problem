@@ -2,10 +2,12 @@ class Solution {
     class DSU{
         int[] parent;
         int[] rank;
+        int component;
 
         public DSU(int n){
             parent = new int[n];
             rank = new int[n];
+            component = n;
             for(int i = 0 ; i < n ; i++) parent[i] = i;
         }
 
@@ -29,6 +31,7 @@ class Solution {
                 parent[parent_x] = parent_y;
                 rank[parent_y]++;
             }
+            component--;
         }
     }
     public int maxNumEdgesToRemove(int n, int[][] edges) {
@@ -38,9 +41,7 @@ class Solution {
         DSU dsu_alice = new DSU(n + 1);
         DSU dsu_bob = new DSU(n + 1);
 
-        int edgeCnt = 0;
-        int compo1 = n ; //for alice
-        int compo2 = n ; //for bob
+        int edgeCnt = 0; 
 
         for(int[] edge : edges){
             int t = edge[0];
@@ -51,24 +52,20 @@ class Solution {
                 if(dsu_alice.find(u) == dsu_alice.find(v)) continue;
                 //type 3 both can traverse
                 dsu_alice.union(u , v);
-                dsu_bob.union(u , v);
-                compo2--;
-                compo1--;
+                dsu_bob.union(u , v); 
             }else if(t == 2){
                 if(dsu_bob.find(u) == dsu_bob.find(v)) continue;
                 //type 2 only bob can go
-                dsu_bob.union(u , v);
-                compo2--;
+                dsu_bob.union(u , v); 
             }else{
                 if(dsu_alice.find(u) == dsu_alice.find(v)) continue;
                 //type 1 only alice can go
-                dsu_alice.union(u , v);
-                compo1--;
+                dsu_alice.union(u , v); 
             }
             edgeCnt++;
         }
-
-        if(compo1 == 1 && compo2 == 1){
+        System.out.println(dsu_alice.component);
+        if(dsu_bob.component == 2 && dsu_alice.component == 2){
             return totalEdge - edgeCnt;
         }
         return -1;
