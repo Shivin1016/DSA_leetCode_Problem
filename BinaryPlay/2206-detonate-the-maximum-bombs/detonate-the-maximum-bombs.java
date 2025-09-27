@@ -18,15 +18,22 @@ class Solution {
         for(int i = 0 ; i < n ; i++) adj.add(new ArrayList<>());
 
         for(int i = 0 ; i < n ; i++){
+            // bomb1 coordinates
             int x1 = bombs[i][0] , y1 = bombs[i][1];
+
             for(int j = 0 ; j < n ; j++){
+
                 if(i == j) continue;
 
+                //bomb1 ilaka
                 double r1 = bombs[i][2];
+
+                // bomb2 coordinates
                 int x2 = bombs[j][0] , y2 = bombs[j][1];
                 //d squre value
                 double d = Math.pow((x1 - x2) , 2) + Math.pow((y1 - y2) , 2);
 
+                //check is bomb2 can lies inside bomb1
                 if(r1 >= Math.sqrt(d)){
                     adj.get(i).add(j);
                 }
@@ -37,6 +44,7 @@ class Solution {
         for(int i = 0 ; i < n ; i++){
             size = 0;
             boolean[] visited = new boolean[n];
+            // count how many bombs can be detonated by ith bomb
             DFS(adj , i , visited);
             result = Math.max(size , result);
         }
