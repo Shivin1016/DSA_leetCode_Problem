@@ -14,25 +14,69 @@ class Solution {
         inRecursion[u] = false;
         return false;
     }
+
+    public void BFSCycle(int[][] graph , boolean[] safeNodes , int n){
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i = 0 ; i < n ; i++) adj.add(new ArrayList<>());
+        int[] indegree = new int[n];
+
+        for(int u = 0 ; u < n ; u++){ 
+            for(int v : graph[u]){
+                //reverse the graph 
+                adj.get(v).add(u);
+                indegree[u]++;
+            }
+        }
+
+        var que = new LinkedList<Integer>(); 
+
+        for(int i = 0 ; i < n ; i++){
+            if(indegree[i] == 0) que.add(i);
+        }
+
+
+        while(!que.isEmpty()){
+            int node = que.pop();
+            safeNodes[node] = true;
+            for(int v : adj.get(node)){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    que.add(v);
+                }
+            }
+        }
+    }
     public List<Integer> eventualSafeNodes(int[][] graph) {
+
         int n = graph.length;
 
-        boolean[] visited = new boolean[n];
-        boolean[] inRecursion = new boolean[n];
 
         List<Integer> ans = new ArrayList<>();
 
-        for(int i = 0 ; i < n ; i++){
-            if(!visited[i]){
-                DFSCycle(graph , i , visited , inRecursion);
-            }
-        }
+        // Using DFS
+        // boolean[] visited = new boolean[n];
+        // boolean[] inRecursion = new boolean[n];
+        // for(int i = 0 ; i < n ; i++){
+        //     if(!visited[i]){
+        //         DFSCycle(graph , i , visited , inRecursion);
+        //     }
+        // }
+        // for(int i = 0 ; i < n ; i++){
+        //     if(inRecursion[i] == false){
+        //         ans.add(i);
+        //     }
+        // }
 
+        //using BFS
+        boolean[] safeNodes = new boolean[n];
+        BFSCycle(graph , safeNodes , n);
         for(int i = 0 ; i < n ; i++){
-            if(inRecursion[i] == false){
+            if(safeNodes[i] == true) {
                 ans.add(i);
             }
         }
+
         return ans;
     }
 }
