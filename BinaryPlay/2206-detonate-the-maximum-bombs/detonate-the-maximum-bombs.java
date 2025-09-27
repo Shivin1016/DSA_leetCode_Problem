@@ -11,6 +11,22 @@ class Solution {
             }
         }
     }
+
+    public void BFS(List<List<Integer>> adj , int u , boolean[] visited){
+        var que = new LinkedList<Integer>();
+        que.add(u);
+        visited[u] = true;
+        while(!que.isEmpty()){
+            int bomb = que.pop();
+            size++;
+            for(int v : adj.get(bomb)){
+                if(!visited[v]){
+                    que.add(v);
+                    visited[v] = true;
+                }
+            }
+        }
+    }
     public int maximumDetonation(int[][] bombs) {
         int n = bombs.length;
 
@@ -45,7 +61,8 @@ class Solution {
             size = 0;
             boolean[] visited = new boolean[n];
             // count how many bombs can be detonated by ith bomb
-            DFS(adj , i , visited);
+            // DFS(adj , i , visited);
+            BFS(adj , i , visited);
             result = Math.max(size , result);
         }
 
