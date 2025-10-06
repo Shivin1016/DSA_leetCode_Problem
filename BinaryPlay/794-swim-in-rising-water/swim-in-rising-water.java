@@ -1,47 +1,41 @@
 class Solution {
     int[][] direction = {{1 , 0} , {0 , 1} , {-1 , 0} ,{0 ,-1}};
-    int n ;
-    boolean canMove(int x , int y , int time , int[][] grid){
-        return (x >= 0 && x < n && y >= 0 && y < n && grid[x][y] <= time);
-    }
-    public boolean possibleToReach(int[][] grid , int i , int j , int time , boolean[][] visited){
-        visited[i][j] = true;
+    public int swimInWater(int[][] grid) {
+        // using dijekstra
 
-        if(i == n - 1 && j == n - 1) return true;
+        int n = grid.length;
 
-        for(int[] dir : direction){
-            int x = i + dir[0];
-            int y = j + dir[1];
+        var pq = new PriorityQueue<int[]>((a , b) -> a[0] - b[0]);
+        pq.add(new int[]{grid[0][0] , 0 , 0});
 
-            if(canMove(x , y , time , grid) && !visited[x][y]){
-                if(possibleToReach(grid , x , y , time , visited)){
-                    return true;
+        int[][] res = new int[n][n];
+        for(int[] r : res) Arrays.fill(r , Integer.MAX_VALUE);
+
+        while(!pq.isEmpty()){
+            int[] info = pq.poll();
+            int currentTime = info[0];
+            int x = info[1];
+            int y = info[2];
+
+            if(x == n - 1 && y == n - 1){
+                return currentTime;
+            }
+
+            for(int[] dir : direction){
+                int x_ = x + dir[0];
+                int y_ = y + dir[1];
+
+                if(x_ >= 0 && y_ >= 0 && x_ < n && y_ < n){
+                    int nextTime = Math.max(currentTime , grid[x_][y_]);
+                    if(nextTime < res[x_][y_]){
+                        res[x_][y_] = nextTime;
+                        pq.add(new int[]{nextTime , x_ , y_});
+                    }
                 }
             }
         }
-        return false;
-    }
-    public int swimInWater(int[][] grid) {
 
-        n = grid.length; 
-
-        int l = grid[0][0];
-        int r = n * n - 1;
-        int result = 0;
-
-        while(l <= r){
-            int mid = l + (r - l) / 2;
-            boolean[][] visited = new boolean[n][n];
-            if(possibleToReach(grid ,  0 , 0 , mid , visited)){
-                result = mid;
-                r = mid - 1;
-            }else{
-                l = mid + 1;
-            }
-        }
-
-        return result;
-
-
+        return res[n - 1][n - 1];
+        
     }
 }
