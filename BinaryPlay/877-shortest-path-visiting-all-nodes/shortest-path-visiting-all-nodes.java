@@ -4,7 +4,12 @@ class Solution {
 
         if(n == 1 || n == 0) return 0;
 
-        Set<String> visited = new HashSet<>(); //stores {node , mask(in decimal)}
+        //take set
+        // Set<String> visited = new HashSet<>(); //stores {node , mask(in decimal)}
+
+        int allVisited = (1 << n) - 1;
+        //using 2d grid
+        boolean[][] visited = new boolean[n][allVisited + 1];
 
         var que = new LinkedList<int[]>(); // stores {node , mask(in decimal)}
         //add all nodes in quue because we have to check from all nodes
@@ -12,11 +17,11 @@ class Solution {
         for(int i = 0 ; i < n ; i++){
             int maskValue = (1 << i);
             que.add(new int[]{i , maskValue});
-            visited.add(i + "," + maskValue);
+            // visited.add(i + "," + maskValue);
+            visited[i][maskValue] = true;
         }
 
-        int path = 0;
-        int allVisited = (1 << n) - 1;
+        int path = 0; 
         while(!que.isEmpty()){
             int size = que.size(); //current path/level
             path++;
@@ -26,14 +31,13 @@ class Solution {
                 int mask = q[1]; 
 
                 for(int neigh : graph[node]){
-                    int nextMask = (1 << neigh) | mask;
-                    String key = neigh + "," + nextMask;
+                    int nextMask = (1 << neigh) | mask; 
                     if(nextMask == allVisited){
                         return path;
                     }
-                    if(!visited.contains(key)){
+                    if(!visited[neigh][nextMask]){
                         que.add(new int[]{neigh , nextMask});
-                        visited.add(key);
+                        visited[neigh][nextMask] = true;
                     }
                 }
             }
