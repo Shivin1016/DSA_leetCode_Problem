@@ -11,11 +11,13 @@ class Solution {
 
         for(int start = 0 ; start + 2 * k <= n ; start++){
             boolean first = isIncreasing(nums , start , start + k);
-            boolean second = isIncreasing(nums , start + k , start + k + k);
-
-            if(first == true && second == true){
-                return true;
+            if(first == true){
+                boolean second = isIncreasing(nums , start + k , start + k + k);
+                if(first == true && second == true){
+                    return true;
+                }
             }
+
         }
         return false;
     }
