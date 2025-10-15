@@ -1,19 +1,22 @@
 class Solution {
+    public boolean isIncreasing(List<Integer> nums , int i , int n){
+        while(i < n - 1){
+            if(nums.get(i) >= nums.get(i + 1)) return false;
+            i++;
+        }
+        return true;
+    }
     public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
         int n = nums.size();
-        int knew = k - 1;
-        if(knew == 0) return true;
 
-        for(int j = k + 1 ; j < n ; j++){
-            if(nums.get(j) > nums.get(j - 1) && nums.get(j - k) > nums.get(j - k - 1)){
-                knew--;
-            }else{
-                knew = k - 1;
+        for(int start = 0 ; start + 2 * k <= n ; start++){
+            boolean first = isIncreasing(nums , start , start + k);
+            boolean second = isIncreasing(nums , start + k , start + k + k);
+
+            if(first == true && second == true){
+                return true;
             }
-
-            if(knew == 0) return true;
         }
         return false;
     }
- 
 }
