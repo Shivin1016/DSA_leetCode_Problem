@@ -1,16 +1,11 @@
 class Solution {
     public long minimumOperations(int[] nums, int[] target) {
-        int n = nums.length;
+        int n = nums.length; 
 
-        int[] diff = new int[n];
-        for(int i = 0 ; i < n ; i++){
-            diff[i] = target[i] - nums[i];
-        }
-
-        long operation = Math.abs(diff[0]);
+        long operation = Math.abs(target[0] - nums[0]);
         for(int i = 1 ; i < n ; i++){
-            int prev = diff[i - 1];
-            int curr = diff[i];
+            int prev = target[i - 1] - nums[i - 1];
+            int curr = target[i] - nums[i];
             //check sign changed
             if(curr < 0 && prev > 0 || curr > 0 && prev < 0){
                 operation += (long)Math.abs(curr);
