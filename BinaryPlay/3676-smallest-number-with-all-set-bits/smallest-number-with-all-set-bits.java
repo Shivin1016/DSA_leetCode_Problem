@@ -1,7 +1,10 @@
 class Solution {
-    public int smallestNumber(int n) { 
-        int len = (int)(Math.log(n) / Math.log(2)) + 1;
+    public int smallestNumber(int n) {
 
-        return (1 << len) - 1;
+        int res = 1;
+        while(res < n){
+            res = 2 * res + 1;
+        }
+        return res;
     }
 }
