@@ -1,39 +1,48 @@
 class Solution {
     int[] componentId;
     Map<Integer , TreeSet<Integer>> mp;
-    public void DFS(int node , List<List<Integer>> adj , boolean[] visited , int comp_id){
-        visited[node] = true;
-        mp.computeIfAbsent(comp_id , k -> new TreeSet<>()).add(node);
-        componentId[node] = comp_id;
-        for(int ngbr : adj.get(node)){
-            if(!visited[ngbr]){
-                DFS(ngbr , adj , visited , comp_id);
-            }
+    int[] parent;
+    int[] rank;
+    public int find(int i){
+        return i == parent[i] ? i : find(parent[i]);
+    }
+
+    public void union(int u , int v){
+        int parent_u = find(u);
+        int parent_v = find(v);
+
+        if(parent_u == parent_v) return ;
+
+        if(rank[parent_u] > rank[parent_v]){
+            parent[parent_v] = parent_u;
+        }else if(rank[parent_u] < rank[parent_v]){
+            parent[parent_u] = parent_v;
+        }else{
+            parent[parent_u] = parent_v;
+            rank[parent_v]++;
         }
     }
     public int[] processQueries(int c, int[][] connections, int[][] queries) {
-        List<List<Integer>> adj = new ArrayList<>();
-        for(int i = 0 ; i <= c ; i++){
-            adj.add(new ArrayList<>());
-        } 
+        parent = new int[c + 1];
+        rank = new int[c + 1];
 
-        for(int[] connection : connections){
-            int u = connection[0];
-            int v = connection[1];
+        for(int i = 1 ; i <= c ; i++) parent[i] = i;
 
-            adj.get(u).add(v);
-            adj.get(v).add(u);
+        for(int[] edge : connections){
+            int u = edge[0];
+            int v = edge[1];
+            union(u , v);
         }
 
         boolean[] visited = new boolean[c + 1];
         componentId = new int[c + 1];
         mp = new HashMap<>();
         for(int node = 1 ; node <= c ; node++){
-            if(!visited[node]){
-                int component_id = node;
-                DFS(node , adj , visited , component_id);
-            }
+            int par = find(node);
+            mp.computeIfAbsent(par , k -> new TreeSet<>()).add(node);
+            componentId[node] = par;
         }
+
         List<Integer> result = new ArrayList<>();
         for(int[] q : queries){
             int operation = q[0];
