@@ -6,7 +6,7 @@ class Solution {
 
         for(String str : tokens){ 
             if(!str.equals("*") && !str.equals("/") && !str.equals("+") && !str.equals("-")){
-                int num = Integer.parseInt(str);
+                int num = Integer.valueOf(str);
                 st.add(num);
             }else{ 
                 int num2 = st.pop();
