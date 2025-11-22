@@ -20,8 +20,8 @@ class Solution {
             =>[ m = InitialSum - min * n ] ==> last equation that we got, where m is number of operations 
         */
 
-        int minEle = Integer.MAX_VALUE;
-        int intitalSum = 0;
+        int minEle = Integer.MAX_VALUE; // minimum element from the array
+        int intitalSum = 0; // Intital sum of an array
         for(int i = 0 ; i < n ; i++){
             minEle = Math.min(minEle , nums[i]);
             intitalSum += nums[i];
