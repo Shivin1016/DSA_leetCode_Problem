@@ -8,14 +8,13 @@ class Solution {
             frq[num]++;
         }
 
+        //prefix sum of freq
+        for(int i = 1 ; i < 101 ; i++){
+            frq[i] += frq[i - 1];
+        }
+
         for(int i = 0 ; i < n ; i++){
-            int count = 0; 
-            for(int j = 0 ; j < nums[i] ; j++){
-                if(frq[j] != 0){
-                    count += frq[j];
-                }
-            }
-            ans[i] = count;
+            ans[i] = nums[i] == 0 ? 0 : frq[nums[i] - 1];
         }
         return ans;
     }
