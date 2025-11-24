@@ -1,30 +1,43 @@
 class Solution {
-    public int maxSumDivThree(int[] nums) { 
-
+    public int maxSumDivThree(int[] nums) {
         int n = nums.length;
-        int[][] dp1 = new int[3][n];
 
-        //nums[0] % 3 = rem put it for base 
+        List<Integer> rem_1 = new ArrayList<>();
+        List<Integer> rem_2 = new ArrayList<>();
 
-        dp1[nums[0] % 3][0] = nums[0];
+        int totalSum = 0;
 
-        for(int i=1;i<nums.length;i++)
-        {
-            int index1 = (nums[i] + dp1[0][i-1])%3;
-            int index2 = (nums[i] + dp1[1][i-1])%3;
-            int index3 = (nums[i] + dp1[2][i-1])%3;
-
-            dp1[index1][i] = Math.max(dp1[index1][i],dp1[0][i-1] + nums[i]);
-            dp1[index2][i] = Math.max(dp1[index2][i],dp1[1][i-1] + nums[i]);
-            dp1[index3][i] = Math.max(dp1[index3][i],dp1[2][i-1] + nums[i]);
-
-            dp1[0][i] = Math.max(dp1[0][i-1],dp1[0][i]);
-            dp1[1][i] = Math.max(dp1[1][i-1],dp1[1][i]);
-            dp1[2][i] = Math.max(dp1[2][i-1],dp1[2][i]);
+        for(int i = 0 ; i < n ; i++){ 
+            if(nums[i] % 3 == 1){
+                rem_1.add(nums[i]);
+            }else if(nums[i] % 3 == 2){
+                rem_2.add(nums[i]);
+            }
+            totalSum += nums[i];
         }
-    
-        return dp1[0][nums.length-1];
 
+        int reminder = totalSum % 3 ;
+        if(reminder == 0) return totalSum;
 
+        Collections.sort(rem_1);
+        Collections.sort(rem_2);
+
+        int res = 0;
+        int size1 = rem_1.size();
+        int size2 = rem_2.size();
+
+        //reminder == 1 
+        if(reminder == 1){
+            int remove1 = size1 >= 1 ? rem_1.get(0) : Integer.MAX_VALUE;
+            int remove2 = size2 >= 2 ? rem_2.get(0) + rem_2.get(1) : Integer.MAX_VALUE; 
+            res = Math.max(res , totalSum - Math.min(remove1 , remove2)); 
+        }else if(reminder == 2){
+            int remove1 = size2 >= 1 ? rem_2.get(0) : Integer.MAX_VALUE;
+            int remove2 = size1 >= 2 ? rem_1.get(0) + rem_1.get(1) : Integer.MAX_VALUE; 
+            
+            res = Math.max(res , totalSum - Math.min(remove1 , remove2));  
+        }
+
+        return res;
     }
 }
