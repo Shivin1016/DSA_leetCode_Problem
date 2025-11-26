@@ -27,36 +27,38 @@ class Solution {
         n = grid[0].length;
         K = k;
         //intilisinig the 3d array
-        dp = new int[m + 1][n + 1][k];
-        for(int[][] r : dp){ 
-            for(int[] t : r){
-                Arrays.fill(t , -1);
-            }
-        }
-        return solve(grid , 0 , 0 , 0); 
+        // dp = new int[m + 1][n + 1][k];
+        // for(int[][] r : dp){ 
+        //     for(int[] t : r){
+        //         Arrays.fill(t , -1);
+        //     }
+        // }
+        // return solve(grid , 0 , 0 , 0); 
 
 
         // bottom up approach
-        // int[][][] t = new int[m + 1][n + 1][K];
+        int[][][] t = new int[m + 1][n + 1][K]; // 3D array 
 
-        // for(int remain = 0 ; remain < k ; remain++){
-        //     t[m - 1][n - 1][remain] = (remain + grid[m - 1][n - 1]) % k == 0 ? 1 : 0;
-        // }
+        for(int remain = 0 ; remain < k ; remain++){
+            t[m - 1][n - 1][remain] = (remain + grid[m - 1][n - 1]) % k == 0 ? 1 : 0;
+        }
 
-        // for(int i = m - 1 ; i >= 0 ; i--){
-        //     for(int j = n - 1 ; j >= 0 ; j--){
-        //         for(int remain = 0 ; remain < k ; remain++){
-        //             if(i == m - 1 && j == n - 1) continue;
+        for(int i = m - 1 ; i >= 0 ; i--){   // m- 1 to 0 
+            for(int j = n - 1 ; j >= 0 ; j--){ // n - 1 to 0
+                // remimder --> if the divisor is k then reminder is from 0 to k- 1
+                for(int remain = 0 ; remain < k ; remain++){
 
-        //             int R = (remain + grid[i][j]) % k;
-        //             long p = 0;
-        //             p += t[i + 1][j][R];
-        //             p += t[i][j + 1][R];
+                    if(i == m - 1 && j == n - 1) continue;
 
-        //             t[i][j][remain] = (int)(p % M);
-        //         }
-        //     }
-        // }
-        // return t[0][0][0];
+                    int R = (remain + grid[i][j]) % k;
+                    long p = 0; ///count / path 
+                    p += t[i + 1][j][R]; // solve(grid  ,  i + 1 , j , reminder)
+                    p += t[i][j + 1][R]; // solve(grid ,i , j + 1 , rmeinder)
+
+                    t[i][j][remain] = (int)(p % M);
+                }
+            }
+        }
+        return t[0][0][0]; // we have to take that path where the reminder is zero
     }
 }
