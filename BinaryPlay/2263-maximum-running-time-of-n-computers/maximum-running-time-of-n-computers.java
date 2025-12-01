@@ -1,6 +1,6 @@
 class Solution {
     public boolean possible(int[] batteries , long mid_min , int n){
-        long targetMin = mid_min * n;
+        long targetMin = mid_min * n ;
         long sum = 0;
 
         for(int i = 0 ; i < batteries.length ; i++){
@@ -11,7 +11,7 @@ class Solution {
     }
     public long maxRunTime(int n, int[] batteries) {
         int m = batteries.length;
-        long  minElement = Long.MAX_VALUE; 
+        long  minElement = Long.MAX_VALUE;  //for l 
 
         long totalSum = 0;
         for(int min : batteries){
@@ -25,7 +25,7 @@ class Solution {
             long mid_min = l + (r - l) / 2 ;
             if(possible(batteries , mid_min , n)){
                 res = mid_min;
-                l = mid_min + 1;
+                l = mid_min + 1;  
             }else{
                 r = mid_min - 1;
             }
