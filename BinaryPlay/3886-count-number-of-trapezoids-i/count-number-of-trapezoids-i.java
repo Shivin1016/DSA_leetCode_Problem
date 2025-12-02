@@ -4,8 +4,8 @@ class Solution {
         long mod = 1000000007;
         Map<Integer , Long> mp = new HashMap<>();
 
-        for(int[] p : points){
-            int y = p[1];
+        for(int[] p : points){ 
+            int y = p[1]; //y-cordinates 
             mp.put(y , mp.getOrDefault(y , (long)0) + 1);
         }
 
