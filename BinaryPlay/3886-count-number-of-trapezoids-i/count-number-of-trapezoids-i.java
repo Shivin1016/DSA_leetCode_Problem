@@ -1,28 +1,32 @@
 class Solution {
-    public int countTrapezoids(int[][] points) {
+    public int countTrapezoids(int[][] points) { 
+        int n = points.length;
+        long mod = 1000000007;
+        Map<Integer , Long> mp = new HashMap<>();
 
-        int n = points.length; 
-
-        //take map --> store y-coordinates
-        Map<Integer , Integer> mp = new HashMap<>();
-        for(int[] point : points){
-            int y_coordinate = point[1];
-            mp.put(y_coordinate , mp.getOrDefault(y_coordinate , 0) + 1);
+        for(int[] p : points){
+            int y = p[1];
+            mp.put(y , mp.getOrDefault(y , (long)0) + 1);
         }
 
-        //make pairs and then make groups of pairs which can make --> quadrilateral
-        long mod = 1000000007;
-        long ans = 0 , s = 0; 
-        for(int val : mp.values()){
-            long pair = (long)val * (val - 1) / 2 % mod; 
-            ans = (ans + (pair * s)) % mod;
-            s = (s + pair) % mod; 
-        } 
+        int size = mp.size(); 
+        List<Long> pairs = new ArrayList<>();
+        for(long cnt : mp.values()){
+            long pair = ((cnt * (cnt - 1)) % mod / 2) % mod;
+            pairs.add(pair);
+        }
 
-        return (int)(ans % mod);
+        long[] prefixSum = new long[size];
+        prefixSum[0] = pairs.get(0);
+        for(int i = 1 ; i < size ; i++){
+            prefixSum[i] = (prefixSum[i - 1] + pairs.get(i)) % mod;
+        }
 
-        //don't worry --> one day you will pass this also --> just focus on consistency 
-        //don't be deMotivated
-        //you have to make your own ladders to climb up --> so it takes time
+        long count = 0;  
+        for(int i = 0 ; i < size - 1 ; i++){
+            count = (count % mod + (pairs.get(i) * (prefixSum[size - 1] - prefixSum[i])) % mod) % mod;
+        }
+
+        return (int)(count % mod);
     }
 }
