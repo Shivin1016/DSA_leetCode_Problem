@@ -47,6 +47,7 @@ class Solution {
 
 
         for(double m : mIntercpts.keySet()){
+            if (mIntercpts.size() <= 1) continue;
             TreeMap<Double , Integer> count = new TreeMap<>();
             for(double c : mIntercpts.get(m)){
                 count.put(c , count.getOrDefault(c , 0) + 1);
