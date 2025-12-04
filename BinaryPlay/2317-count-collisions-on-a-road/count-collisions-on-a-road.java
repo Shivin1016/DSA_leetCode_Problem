@@ -3,7 +3,8 @@ class Solution {
         int n = directions.length();
 
         int collisions = 0;
-        char[] dir = directions.toCharArray();
+        char[] dir = directions.toCharArray(); // 
+
         int rightCnt = 0;
         for(int i = 0 ; i < n ; i++){
             char ch = dir[i];
@@ -16,7 +17,7 @@ class Solution {
                 rightCnt++;
                 boolean isCollide = false;
                 if(dir[i + 1] == 'L'){
-                    collisions += (rightCnt + 1);
+                    collisions += (rightCnt + 1); 
                     isCollide = true;
                     dir[i + 1] = 'S';
                 }else if(dir[i + 1] == 'S'){
