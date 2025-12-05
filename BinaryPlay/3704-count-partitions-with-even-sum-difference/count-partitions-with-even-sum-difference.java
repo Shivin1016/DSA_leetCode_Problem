@@ -4,8 +4,19 @@ class Solution {
         int sum = 0;
 
         for(int i = 0 ; i < n ; i++){ 
-            sum += nums[i];
-        } 
-        return sum % 2 == 0 ? n - 1 : 0;
+            sum += nums[i]; //total sum
+        }  
+
+        int leftSum = 0;  
+        int count = 0;
+
+        for(int i = 0 ; i < n - 1 ; i++){
+            leftSum += nums[i];
+            int rightSum = sum - leftSum;
+
+            if((leftSum % 2) == (rightSum % 2)) count++;
+        }
+
+        return count;
     }
 }
