@@ -1,35 +1,51 @@
 class Solution {
     public int countPartitions(int[] nums, int k) {
-        int MOD = (int) 1e9 + 7, n = nums.length, left = 0;
-        int[] dp = new int[n + 1], prefix = new int[n + 2]; 
-        
-        dp[0] = 1; prefix[1] = 1; 
-        
-        Deque<Integer> min = new ArrayDeque<>(), max = new ArrayDeque<>();
-                
-        for (int i = 0; i < n; i++) {
-            while (!max.isEmpty() && nums[max.peekLast()] <= nums[i]) {
-                max.pollLast();
+        int n = nums.length;
+        int M = (int)1e9 + 7;
+
+        long[] dp = new long[n + 1];
+        dp[0] = 1; //take whole array partition --> {} , {4,1,3} if arra is {4,1,3}
+
+        long[] prefixSum = new long[n + 1] ;
+        prefixSum[0] = 1; // commulative sum of dp array
+
+        Deque<Integer> maxDeq = new ArrayDeque<>();
+        Deque<Integer> minDeq = new ArrayDeque<>();
+
+        int i = 0 , j = 0;
+        while(j < n){
+            //for monotonic decreasing deque -->maxDeque--> max element at front
+            while(!maxDeq.isEmpty() && nums[j] > nums[maxDeq.peekLast()]){
+                maxDeq.pollLast();
             }
-            max.addLast(i);
-            
-            while (!min.isEmpty() && nums[min.peekLast()] >= nums[i]) {
-                min.pollLast();
+            maxDeq.addLast(j);
+
+            //for monotonic increasing deque -->minDeque--> min element at front
+            while(!minDeq.isEmpty() && nums[j] < nums[minDeq.peekLast()]){
+                minDeq.pollLast();
             }
-            min.addLast(i);
-            
-            while (nums[max.peekFirst()] - nums[min.peekFirst()] > k) {
-                if (max.peekFirst() == left) max.pollFirst();
-                if (min.peekFirst() == left) min.pollFirst();
-                
-                left++;
+            minDeq.addLast(j);
+
+            //find valid window 
+            while(i < n && (nums[maxDeq.peekFirst()] - nums[minDeq.peekFirst()]) > k){
+                i++; 
+                if(!minDeq.isEmpty() && minDeq.peekFirst() < i){
+                    //invalid
+                    minDeq.pollFirst();
+                }
+                if(!maxDeq.isEmpty() && maxDeq.peekFirst() < i){
+                    //invalid
+                    maxDeq.pollFirst();
+                }
             }
-            
-            dp[i + 1] = (prefix[i + 1] - prefix[left] + MOD) % MOD;
-            
-            prefix[i + 2] = (prefix[i + 1] + dp[i + 1]) % MOD;
+
+            // getting valid window
+            long val = (prefixSum[j] - (i > 0 ? prefixSum[i - 1] : 0) + M) % M;
+            dp[j + 1] = val ;
+            prefixSum[j + 1] = (dp[j + 1] + prefixSum[j]) % M ;
+            j++;
         }
-        
-        return dp[n];
+
+        return (int)dp[n]; // number of ways to partition an array from 0 to n - 1
     }
 }
