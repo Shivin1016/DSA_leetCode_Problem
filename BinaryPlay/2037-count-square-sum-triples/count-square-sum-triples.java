@@ -4,7 +4,7 @@ class Solution {
         int high = nums.length - 1;
 
         while(low <= high){
-            int mid = low + ( high - low) / 2;
+            int mid = low + ( high - low) / 2; //
             if(nums[mid] == target){
                 return true;
             }else if(nums[mid] < target){
@@ -16,7 +16,7 @@ class Solution {
         return false;
     }
     public int countTriples(int n) {
-        int[] sqArr = new int[n + 1];
+        int[] sqArr = new int[n + 1]; //sq array 
 
         for(int i = 1 ; i <= n ; i++){
             int sq = i * i;
@@ -27,7 +27,7 @@ class Solution {
             for(int j = i + 1 ; j <= n ; j++){
                 int target = sqArr[i] + sqArr[j];
                 if(binarySearch(target , sqArr)){
-                    count++;
+                    count++; // 3, 4 , 5 == > 4 , 3 , 5
                 }
             }
         }
