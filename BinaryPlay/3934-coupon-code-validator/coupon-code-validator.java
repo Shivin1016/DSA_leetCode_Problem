@@ -14,7 +14,7 @@ class Solution {
         return false;
     }
     public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
-        List<String[]> ans = new ArrayList<>();
+        List<String[]> ans = new ArrayList<>(); // store code , catagory 
         int n = code.length;
 
         for(int i = 0 ; i < n ; i++){ 
@@ -27,7 +27,7 @@ class Solution {
         } 
  
 
-        // sort list on basis of bsuiess line
+        // sort list on basis of bsuiess line if the lines are equals then sort on basis of code
         Collections.sort(ans , (a , b) ->{ 
             int val = a[1].compareTo(b[1]);
             if(val == 0){
