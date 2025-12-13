@@ -1,10 +1,5 @@
 class Solution {
-    public boolean isValid(String code , String business){
-        HashSet<String> businessLines = new HashSet<>();
-        businessLines.add("electronics");
-        businessLines.add("grocery");
-        businessLines.add("pharmacy");
-        businessLines.add("restaurant");
+    public boolean isValid(String code , String business){ 
 
         for(char ch : code.toCharArray()){
             if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || (ch == '_')){ 
@@ -12,7 +7,7 @@ class Solution {
             }else return false;
         }
 
-        if(businessLines.contains(business)){
+        if(business.equals("electronics") || business.equals("grocery") || business.equals("pharmacy") || business.equals("restaurant")){
             return true;
         }
 
@@ -25,14 +20,12 @@ class Solution {
         for(int i = 0 ; i < n ; i++){ 
             String business = businessLine[i];
             if(code[i].length() == 0) continue;
-            
-            if(isValid(code[i] , business) && isActive[i]){
-                System.out.println(code[i]);
+
+            if(isValid(code[i] , business) && isActive[i]){ 
                 ans.add(new String[]{code[i] , business});
             }
         } 
-
-        System.out.println(ans.size());
+ 
 
         // sort list on basis of bsuiess line
         Collections.sort(ans , (a , b) ->{ 
