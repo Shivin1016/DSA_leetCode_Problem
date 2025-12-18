@@ -11,10 +11,12 @@ class Solution {
 
         int i = 0 , j = 0;
         long maxGain = 0;
+        //profits for particular windows 
         long originalProfit = 0;
         long modifiedProfit = 0; 
 
         while(j < n){
+            // current window profit without modification
             originalProfit += profit[j];
 
             //agar ham window of k ke right half part me a gaye then add price value
@@ -28,6 +30,7 @@ class Solution {
                 i++;
             }
             
+
             if(j - i + 1 == k){
                 //got subarray of k size 
                 maxGain = Math.max(maxGain , modifiedProfit - originalProfit);
@@ -35,6 +38,7 @@ class Solution {
 
             j++;
         } 
+        
         return totalProfit + (maxGain < 0 ? 0 : maxGain);
     }
 }
