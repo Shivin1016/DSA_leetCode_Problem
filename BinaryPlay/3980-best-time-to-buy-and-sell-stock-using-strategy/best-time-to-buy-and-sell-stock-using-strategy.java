@@ -16,7 +16,7 @@ class Solution {
 
         while(j < n){
             originalProfit += profit[j];
-            
+
             //agar ham window of k ke right half part me a gaye then add price value
             if((j - i + 1) > k / 2){
                 modifiedProfit += prices[j];
@@ -34,9 +34,7 @@ class Solution {
             }
 
             j++;
-        }
-        System.out.println(maxGain);
-        long ans = totalProfit + (maxGain < 0 ? 0 : maxGain);
+        } 
         return totalProfit + (maxGain < 0 ? 0 : maxGain);
     }
 }
