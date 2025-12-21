@@ -5,10 +5,10 @@ class Solution {
 
         int count = 0; 
 
-        for(int i = 0 ; i < col ; i++){ 
-            for(int j = 1 ; j < row ; j++){
-                if(strs[j].charAt(i) < strs[j - 1].charAt(i)){
-                    count++;
+        for(int i = 0 ; i < col ; i++){  // traverse on columns
+            for(int j = 1 ; j < row ; j++){ // traverse on rows 
+                if(strs[j].charAt(i) < strs[j - 1].charAt(i)){ // if any col found then break
+                    count++; //nor sorted 
                     break;
                 }
             }
