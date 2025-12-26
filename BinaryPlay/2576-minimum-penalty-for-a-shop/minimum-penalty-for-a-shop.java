@@ -2,8 +2,8 @@ class Solution {
     public int bestClosingTime(String customers) {
         int n = customers.length();
 
-        //stores Y-cnt
-        int[] yCnt = new int[n];
+        //stores Y-cnt // customers came at the shop
+        int[] yCnt = new int[n]; 
         int nCnt = 0;
         int panality = Integer.MAX_VALUE;
         int closingTime = Integer.MAX_VALUE;
@@ -16,8 +16,8 @@ class Solution {
         }
 
         for(int i = 0 ; i <= n ; i++){ // for closing time
-            //in starting ncnt is zero
-            //ycnt from ith position
+            //in starting nCnt is zero
+            //yCnt from ith position
             int tempPanality = (i == n ? 0 : yCnt[i]) + nCnt;
             // System.out.println(panality + " " + tempPanality + " " + nCnt);
             if(tempPanality < panality){
