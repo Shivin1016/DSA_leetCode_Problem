@@ -22,7 +22,7 @@ class Solution {
     String sourceStr, targetStr;
     TreeSet<Integer> validLengths = new TreeSet<>();
 
-    long dijkstra(String start, String end) {
+    private long dijkstra(String start, String end) {
 
         if (srcTotarget.containsKey(start) &&
             srcTotarget.get(start).containsKey(end)) {
@@ -33,8 +33,8 @@ class Solution {
                 new PriorityQueue<>(Comparator.comparingLong(p -> p.cost));
 
         Map<String, Long> result = new HashMap<>();
-        result.put(start, 0L);
-        
+        result.put(start, 0L); 
+
         pq.offer(new Pair(0, start));
 
         while (!pq.isEmpty()) {
@@ -70,7 +70,7 @@ class Solution {
         return finalCost;
     }
 
-    long solve(int idx) {
+    private long solve(int idx) {
         if (idx >= sourceStr.length())
             return 0;
 
