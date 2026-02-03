@@ -1,34 +1,33 @@
-class Solution {  
-    public int minFallingPathSum(int[][] matrix) {
-        int min_falling_path_sum = Integer.MAX_VALUE;  
+class Solution {
+    int m , n;
+    int[][] t;
 
-        //bottom up appraoch -->O(n ^ 2) 
-        int n = matrix.length;
+    private int solve(int[][] grid , int i , int j){
+        if(i < 0 || j < 0 || i >= m || j >= n) return Integer.MAX_VALUE;
 
-
-        int[][] t = new int[n][n];
-        for(int col = 0 ; col < n ; col++){
-            t[0][col] = matrix[0][col];
+        if(i == m - 1){
+            return grid[i][j];
         }
 
-        for(int i = 1 ; i < n ; i++){
-            for(int j = 0 ; j < n ; j++){
-                int up_left = (j - 1) < 0 ? Integer.MAX_VALUE : t[i - 1][j - 1];
-                int up = t[i - 1][j];
-                int up_right = (j + 1) >= n ? Integer.MAX_VALUE : t[i - 1][j + 1];
+        if(t[i][j] != Integer.MAX_VALUE) return t[i][j];
 
-                t[i][j] = matrix[i][j] + Math.min(up_left , Math.min(up , up_right)); 
+        int ans = grid[i][j] + Math.min(solve(grid , i + 1 , j - 1) , Math.min(solve(grid , i + 1 , j) , solve(grid , i + 1 , j + 1)));
 
-            }
-
-        }
-
-
-        for(int col = 0 ; col < n ; col++){
-            min_falling_path_sum = Math.min(min_falling_path_sum , t[n - 1][col]);
-        }
- 
-        return min_falling_path_sum;
+        return t[i][j] = ans;
     }
+    public int minFallingPathSum(int[][] matrix) {
+        m = matrix.length;
+        n = matrix[0].length;  
 
+        t = new int[m][n];
+        for(int[] r : t) Arrays.fill(r  , Integer.MAX_VALUE);
+
+        int ans = Integer.MAX_VALUE;
+        for(int j = 0 ; j < n ; j++){
+
+            ans = Math.min(ans , solve(matrix , 0 , j));
+        }
+
+        return ans;
+    }
 }
