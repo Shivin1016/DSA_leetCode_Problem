@@ -1,20 +1,27 @@
-class Solution { 
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size(); 
+class Solution {
+    int m;
+    Map<String , Integer> t = new HashMap<>();
 
-        for(int r = 1 ; r < n ; r++){
-            for(int c = 0 ; c <= r ; c++){
-                int size = triangle.get(r - 1).size();
-                int rowLeft = triangle.get(r - 1).get(Math.max(c - 1 , 0));
-                int rowRight = triangle.get(r - 1).get(Math.min(c , size - 1));
-                int val = triangle.get(r).get(c) + Math.min(rowLeft , rowRight);
-
-                triangle.get(r).set(c , val);
-            }
+    private int solve(List<List<Integer>> grid , int i , int j){
+        if(i >= m || j >= grid.get(i).size()){
+            return Integer.MAX_VALUE;
         }
 
-        Collections.sort(triangle.get(n - 1));
-        return triangle.get(n - 1).get(0);
-    
+        if(i == m - 1){
+            return grid.get(i).get(j);
+        }
+
+        String key = i + "_" + j;
+        if(t.containsKey(key)) return t.get(key);
+
+        int ans = grid.get(i).get(j) + Math.min(solve(grid , i + 1 , j) , solve(grid , i + 1 , j + 1));
+        t.put(key , ans);
+
+        return ans;
+
+    }
+    public int minimumTotal(List<List<Integer>> triangle) {
+        m = triangle.size();
+        return solve(triangle , 0 , 0);
     }
 }
