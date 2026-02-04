@@ -18,7 +18,7 @@ class Solution {
     public int maxProfit(int k, int[] prices) {
         n = prices.length;
 
-        t = new int[n + 1][2][k + 1];
+        t = new int[1001][2][101];
         for(int[][] r : t){
             for(int[] s : r) Arrays.fill(s , -1);
         }
