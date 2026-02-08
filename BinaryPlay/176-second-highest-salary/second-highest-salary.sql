@@ -1,0 +1,21 @@
+# Write your MySQL query statement 
+-- 1-> way
+-- SELECT (
+--     SELECT DISTINCT salary      
+--     FROM Employee
+--     ORDER BY salary DESC
+--     LIMIT 1  OFFSET 1
+-- ) AS SecondHighestSalary;
+
+-- 2-> way
+SELECT(
+    SELECT DISTINCT salary
+    FROM (
+        SELECT 
+            *,
+            DENSE_RANK() OVER(ORDER BY salary DESC) as 'ranking'
+        FROM Employee
+    ) as sub
+    WHERE ranking = 2
+) AS SecondHighestSalary;
+
