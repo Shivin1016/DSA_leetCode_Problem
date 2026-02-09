@@ -7,10 +7,20 @@
 -- HAVING COUNT(timestamp) >= 3;
 
 -- 2 -> way
-SELECT actor_id , director_id
+-- SELECT actor_id , director_id
+-- FROM(
+--     SELECT actor_id , director_id , COUNT(timestamp) as cnt
+--     FROM ActorDirector
+--     GROUP BY actor_id , director_id
+-- ) as s
+-- WHERE s.cnt >= 3;
+ 
+
+SELECT DISTINCT actor_id , director_id
 FROM(
-    SELECT actor_id , director_id , COUNT(timestamp) as cnt
+    SELECT 
+        * ,
+        COUNT(*) OVER(PARTITION BY actor_id , director_id) as 'ranking'
     FROM ActorDirector
-    GROUP BY actor_id , director_id
 ) as s
-WHERE s.cnt >= 3;
+WHERE s.ranking >= 3;
