@@ -20,13 +20,21 @@
 -- ) AS SecondHighestSalary;
 
 -- 3-> way
+-- SELECT (
+--     SELECT DISTINCT salary
+--     FROM Employee
+--     WHERE salary < (
+--         SELECT MAX(salary) FROM Employee
+--     )
+--     ORDER BY salary DESC
+--     LIMIT 1 
+-- ) AS SecondHighestSalary;
+
+-- 4-> way
 SELECT (
-    SELECT DISTINCT salary
+    SELECT DISTINCT MAX(salary)
     FROM Employee
     WHERE salary < (
         SELECT MAX(salary) FROM Employee
-    )
-    ORDER BY salary DESC
-    LIMIT 1 
+    ) 
 ) AS SecondHighestSalary;
-
