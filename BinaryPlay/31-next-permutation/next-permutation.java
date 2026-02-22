@@ -28,18 +28,16 @@ class Solution {
             reverse(nums , 0 , n - 1); // reverse whole array
         }
         else{
-            // find just greater number than rightNum on right side
-            int justGreater = Integer.MAX_VALUE;
+            // find just greater number than rightNum on right side 
             int target = nums[rightIdx];
             int idx = -1; 
-            for(int i = rightIdx + 1 ; i < n ; i++){
-                if(nums[i] > target && nums[i] <= justGreater){
-                    justGreater = nums[i];
+            for(int i = n - 1 ; i > rightIdx ; i--){
+                if(nums[i] > target){ 
                     idx = i;
+                    break;
                 } 
             }
-            // now swap 
-            System.out.println(idx);
+            // now swap  
             swap(nums , idx , rightIdx);
             // after that just reverse array from rightIdx + 1
             reverse(nums , rightIdx + 1 , n - 1);
