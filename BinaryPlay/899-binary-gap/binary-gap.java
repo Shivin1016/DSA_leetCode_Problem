@@ -1,24 +1,17 @@
 class Solution {
-    public int binaryGap(int n) {
-        String binary = Integer.toBinaryString(n);
-        int len = binary.length();
+    public int binaryGap(int n) { 
         int maxDistance = 0;
-        int i = 0 , first_1 = -1;
-        while(i < len){
-            int cnt = 1;
-            if(first_1 == -1 && binary.charAt(i) == '1'){
-                first_1 = 1;
-                i++;
-            } 
-            while(i < len && binary.charAt(i) == '0'){
-                i++;
-                cnt++;
-            }
-
-            if(first_1 == 1 && i < len && binary.charAt(i) == '1'){
-                maxDistance = Math.max(maxDistance , cnt);
-            }
-            i++;
+        int lastSeen = 0 , first_1 = -1;
+        while(n > 0){
+            if((n & 1) == 1){
+                if(first_1 != -1){
+                    int dist = lastSeen - first_1;
+                    maxDistance = Math.max(maxDistance , dist);
+                }
+                first_1 = lastSeen;
+            }   
+            n >>= 1;
+            lastSeen++;
         }
 
         return maxDistance;
