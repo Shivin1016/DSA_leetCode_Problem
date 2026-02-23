@@ -11,12 +11,11 @@ class Solution {
         for(int i = k ; i <= n ; i++){ // goes i to n becuase we have to take last sunstring also
             String str = s.substring(i - k , i);
             st.add(str);
+
+            if(st.size() == noOfDistinctSubstring) break;
         }
 
-        return st.size() == noOfDistinctSubstring;
-
-
-
+        return st.size() == noOfDistinctSubstring; 
 
     }
 }
