@@ -4,7 +4,7 @@ class Solution {
         int n = s.length();
 
         // possible substring of length k
-        int noOfDistinctSubstring = (int)(Math.pow(2 , k)); 
+        int noOfDistinctSubstring = 1 << k;
 
         Set<String> st = new HashSet<>();
 
